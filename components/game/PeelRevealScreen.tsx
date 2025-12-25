@@ -71,6 +71,7 @@ export default function PeelRevealScreen({
     return `0 ${shadowY}px ${shadowBlur}px rgba(0, 0, 0, 0.3)`;
   });
 
+
   const completeReveal = async () => {
     if (isAnimating || isRevealed) return;
     
@@ -174,40 +175,58 @@ export default function PeelRevealScreen({
     }
   );
 
+  // Extrair apenas as propriedades de evento compatíveis
   const swipeRightProps = isRevealed && onSwipeRight ? bindSwipeRight() : {};
+  const {
+    onPointerDown: onSwipePointerDown,
+    onPointerMove: onSwipePointerMove,
+    onPointerUp: onSwipePointerUp,
+    onPointerCancel: onSwipePointerCancel,
+    onTouchStart: onSwipeTouchStart,
+    onTouchMove: onSwipeTouchMove,
+    onTouchEnd: onSwipeTouchEnd,
+    onTouchCancel: onSwipeTouchCancel,
+  } = swipeRightProps;
 
   // Se já está revelado, mostrar apenas o conteúdo
   if (isRevealed) {
     return (
       <motion.div
-        className="h-full w-full flex items-center justify-center"
+        className={`w-full ${allRevealed ? 'flex items-start justify-center pt-8' : 'h-full flex items-center justify-center'}`}
         style={{ x }}
-        {...swipeRightProps}
+        onPointerDown={onSwipePointerDown}
+        onPointerMove={onSwipePointerMove}
+        onPointerUp={onSwipePointerUp}
+        onPointerCancel={onSwipePointerCancel}
+        onTouchStart={onSwipeTouchStart}
+        onTouchMove={onSwipeTouchMove}
+        onTouchEnd={onSwipeTouchEnd}
+        onTouchCancel={onSwipeTouchCancel}
       >
-        <div className="text-center w-full max-w-md px-4">
+        <div className={`text-center w-full max-w-md px-4 ${allRevealed ? '' : ''}`}>
           {isImpostor ? (
             <>
               {/* Ilustração Impostor */}
               <div
-                className="w-48 h-48 mx-auto mb-6 rounded-lg bg-cover bg-center bg-no-repeat drop-shadow-2xl"
+                className="w-40 h-40 mx-auto mb-3 rounded-lg bg-cover bg-center bg-no-repeat drop-shadow-2xl"
                 style={{ backgroundImage: 'url(/illustrations/impostor.png)' }}
                 role="img"
                 aria-label="Impostor"
               />
               
-              <h3 className="font-display text-4xl mb-6 text-red-900">
+              <h3 className="font-display text-3xl mb-3 text-red-900">
                 IMPOSTOR
               </h3>
               
-              <p className="font-body text-xl mb-2 text-red-800">
+              <p className="font-body text-lg mb-1 text-red-800">
                 Tema:
               </p>
               
-              <p className="font-display text-3xl font-black mb-6 text-red-900">
+              <p className="font-display text-2xl font-black mb-3 text-red-900">
                 {currentRoundData.theme}
               </p>
               
-              <p className="font-body text-sm text-red-800 px-4">
+              <p className="font-body text-xs text-red-800 px-4">
                 Descubra a palavra através das dicas dos outros!
               </p>
             </>
@@ -215,25 +234,25 @@ export default function PeelRevealScreen({
             <>
               {/* Ilustração Inocente */}
               <div
-                className="w-48 h-48 mx-auto mb-6 rounded-lg bg-cover bg-center bg-no-repeat drop-shadow-2xl"
+                className="w-40 h-40 mx-auto mb-3 rounded-lg bg-cover bg-center bg-no-repeat drop-shadow-2xl"
                 style={{ backgroundImage: 'url(/illustrations/inoscente.png)' }}
                 role="img"
                 aria-label="Inocente"
               />
               
-              <h3 className="font-display text-4xl mb-6 text-green-900">
+              <h3 className="font-display text-3xl mb-3 text-green-900">
                 INOCENTE
               </h3>
               
-              <p className="font-body text-xl mb-4 text-green-800">
+              <p className="font-body text-lg mb-2 text-green-800">
                 Sua palavra é:
               </p>
               
-              <p className="font-display text-6xl font-black mb-6 break-words text-green-900">
+              <p className="font-display text-5xl font-black mb-3 break-words text-green-900">
                 {currentRoundData.secretWord}
               </p>
               
-              <p className="font-body text-sm text-green-800 px-4">
+              <p className="font-body text-xs text-green-800 px-4">
                 Dê dicas sobre esta palavra sem ser muito óbvio!
               </p>
             </>
@@ -241,14 +260,14 @@ export default function PeelRevealScreen({
 
           {/* Botão para próximo jogador */}
           {!allRevealed && onSwipeRight && (
-            <div className="mt-8">
+            <div className="mt-4">
               <button
                 onClick={onSwipeRight}
-                className="px-8 py-4 bg-board-brown text-board-cream rounded-full font-display text-lg shadow-card-lg hover:bg-board-brown/90 transition-colors"
+                className="px-6 py-3 bg-board-brown text-board-cream rounded-full font-display text-base shadow-card-lg hover:bg-board-brown/90 transition-colors"
               >
                 Próximo Jogador →
               </button>
-              <p className="font-body text-sm opacity-70 mt-4">
+              <p className="font-body text-xs opacity-70 mt-2">
                 Ou deslize para a direita
               </p>
             </div>
@@ -263,48 +282,48 @@ export default function PeelRevealScreen({
       ref={containerRef}
       className="relative h-full w-full overflow-hidden"
     >
-      {/* Backdrop Layer - Conteúdo da Revelação */}
+      {/* Backdrop Layer - Conteúdo da Revelação (sempre renderizado para evitar piscada) */}
       <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-board-cream to-white">
         <div className="text-center w-full max-w-md px-4">
           {isImpostor ? (
             <>
               <div
-                className="w-48 h-48 mx-auto mb-6 rounded-lg bg-cover bg-center bg-no-repeat drop-shadow-2xl"
+                className="w-40 h-40 mx-auto mb-3 rounded-lg bg-cover bg-center bg-no-repeat drop-shadow-2xl"
                 style={{ backgroundImage: 'url(/illustrations/impostor.png)' }}
                 role="img"
                 aria-label="Impostor"
               />
-              <h3 className="font-display text-4xl mb-6 text-red-900">
+              <h3 className="font-display text-3xl mb-3 text-red-900">
                 IMPOSTOR
               </h3>
-              <p className="font-body text-xl mb-2 text-red-800">
+              <p className="font-body text-lg mb-1 text-red-800">
                 Tema:
               </p>
-              <p className="font-display text-3xl font-black mb-6 text-red-900">
+              <p className="font-display text-2xl font-black mb-3 text-red-900">
                 {currentRoundData.theme}
               </p>
-              <p className="font-body text-sm text-red-800 px-4">
+              <p className="font-body text-xs text-red-800 px-4">
                 Descubra a palavra através das dicas dos outros!
               </p>
             </>
           ) : (
             <>
               <div
-                className="w-48 h-48 mx-auto mb-6 rounded-lg bg-cover bg-center bg-no-repeat drop-shadow-2xl"
+                className="w-40 h-40 mx-auto mb-3 rounded-lg bg-cover bg-center bg-no-repeat drop-shadow-2xl"
                 style={{ backgroundImage: 'url(/illustrations/inoscente.png)' }}
                 role="img"
                 aria-label="Inocente"
               />
-              <h3 className="font-display text-4xl mb-6 text-green-900">
+              <h3 className="font-display text-3xl mb-3 text-green-900">
                 INOCENTE
               </h3>
-              <p className="font-body text-xl mb-4 text-green-800">
+              <p className="font-body text-lg mb-2 text-green-800">
                 Sua palavra é:
               </p>
-              <p className="font-display text-6xl font-black mb-6 break-words text-green-900">
+              <p className="font-display text-5xl font-black mb-3 break-words text-green-900">
                 {currentRoundData.secretWord}
               </p>
-              <p className="font-body text-sm text-green-800 px-4">
+              <p className="font-body text-xs text-green-800 px-4">
                 Dê dicas sobre esta palavra sem ser muito óbvio!
               </p>
             </>
@@ -338,14 +357,14 @@ export default function PeelRevealScreen({
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.2, type: "spring" }}
-            className="relative w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden border-4 border-board-brown/20"
+            className="relative w-28 h-28 mx-auto mb-4 rounded-full overflow-hidden border-4 border-board-brown/20"
           >
             <Image
               src={currentPlayer.avatar || getDefaultAvatar()}
               alt={currentPlayer.name}
               fill
               className="object-cover"
-              sizes="128px"
+              sizes="112px"
             />
           </motion.div>
           
@@ -354,7 +373,7 @@ export default function PeelRevealScreen({
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="font-display text-5xl mb-4 text-board-dark"
+            className="font-display text-4xl mb-3 text-board-dark"
           >
             {currentPlayer.name}
           </motion.h2>
@@ -364,7 +383,7 @@ export default function PeelRevealScreen({
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className="font-body text-lg text-board-brown/70 mb-8"
+            className="font-body text-base text-board-brown/70 mb-6"
           >
             Puxe de baixo para cima para revelar
           </motion.p>
@@ -373,7 +392,7 @@ export default function PeelRevealScreen({
           <motion.div
             animate={{ y: [0, 10, 0] }}
             transition={{ repeat: Infinity, duration: 1.5 }}
-            className="text-4xl"
+            className="text-3xl"
           >
             ↑
           </motion.div>
