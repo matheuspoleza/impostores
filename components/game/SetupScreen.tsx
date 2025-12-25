@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, Trash2, Play, Info, Users, Palette, CheckCircle2 } from "lucide-react";
+import { Plus, Trash2, Play, Info, Users, Palette, CheckCircle2, X } from "lucide-react";
 import Image from "next/image";
 import { useGameState } from "@/hooks/useGameState";
 import RulesModal from "./RulesModal";
@@ -132,6 +132,33 @@ export default function SetupScreen() {
   const selectedTheme = themes.find((t) => t.name === selectedThemeName);
   const canStartGame = players.length >= 3 && selectedThemeName !== "";
   const maxPlayers = 8;
+  
+  // Lógica para mostrar checklist: apenas quando 1 requisito falta
+  const hasPlayers = players.length >= 3;
+  const hasTheme = selectedThemeName !== "";
+  const showChecklist = (hasPlayers && !hasTheme) || (!hasPlayers && hasTheme);
+  
+  // Mensagem única e inteligente para o rodapé
+  const getStatusMessage = () => {
+    if (canStartGame) {
+      return "Tudo pronto! 🎉";
+    }
+    if (players.length === 0) {
+      return null; // Empty state já explica
+    }
+    if (!hasTheme && hasPlayers) {
+      return "Selecione um tema para iniciar";
+    }
+    if (!hasPlayers && hasTheme) {
+      return `Faltam ${3 - players.length} jogador${3 - players.length > 1 ? 'es' : ''} para começar`;
+    }
+    if (!hasPlayers && !hasTheme) {
+      return null; // Ambos empty states explicam
+    }
+    return null;
+  };
+  
+  const statusMessage = getStatusMessage();
 
   // Função para obter ícone do tema
   const getThemeIcon = (themeName: string) => {
@@ -152,61 +179,32 @@ export default function SetupScreen() {
 
   return (
     <div className="h-screen h-dvh w-full overflow-y-auto overflow-x-hidden pb-32">
-      <div className="max-w-md mx-auto p-4">
-        {/* Progress Indicator */}
-        <div className="mb-6 pt-2">
-          <div className="flex items-center justify-center gap-2">
+      <div className="max-w-md mx-auto p-4 pt-6">
+        {/* Header - Mobile First */}
+        <div className="mb-6">
+          {/* Header Compacto */}
+          <div className="flex justify-between items-center mb-1.5">
+            <h1 className="font-display text-2xl text-board-brown">
+              Configuração
+            </h1>
+            <button
+              onClick={() => setIsRulesOpen(true)}
+              className="p-1.5 hover:bg-black/10 rounded-full transition-colors"
+              aria-label="Abrir regras"
+            >
+              <Info className="w-5 h-5 text-board-brown" strokeWidth={2} />
+            </button>
+          </div>
+          
+          {/* Stepper Minimal - Secundário */}
+          <div className="flex items-center gap-1.5">
             <div className="flex items-center gap-1">
-              <div className="w-3 h-3 rounded-full bg-innocent-card"></div>
-              <span className="text-xs font-body text-board-brown font-semibold">Configuração</span>
-            </div>
-            <div className="w-8 h-0.5 bg-board-brown/20"></div>
-            <div className="flex items-center gap-1">
-              <div className="w-3 h-3 rounded-full bg-board-brown/20"></div>
-              <span className="text-xs font-body text-board-brown/50">Revelação</span>
-            </div>
-            <div className="w-8 h-0.5 bg-board-brown/20"></div>
-            <div className="flex items-center gap-1">
-              <div className="w-3 h-3 rounded-full bg-board-brown/20"></div>
-              <span className="text-xs font-body text-board-brown/50">Votação</span>
-            </div>
-            <div className="w-8 h-0.5 bg-board-brown/20"></div>
-            <div className="flex items-center gap-1">
-              <div className="w-3 h-3 rounded-full bg-board-brown/20"></div>
-              <span className="text-xs font-body text-board-brown/50">Resultado</span>
+              <div className="w-1.5 h-1.5 rounded-full bg-innocent-card"></div>
+              <div className="w-1.5 h-1.5 rounded-full bg-board-brown/20"></div>
+              <div className="w-1.5 h-1.5 rounded-full bg-board-brown/20"></div>
+              <div className="w-1.5 h-1.5 rounded-full bg-board-brown/20"></div>
             </div>
           </div>
-        </div>
-
-        {/* Header */}
-        <div className="flex justify-between items-start mb-4">
-          <div className="flex items-center gap-3">
-            <Image
-              src="/logo.png"
-              alt="Logo"
-              width={64}
-              height={64}
-              className="object-contain drop-shadow-md"
-            />
-            <div>
-              <div className="flex items-center gap-2">
-                <Users className="w-5 h-5 text-board-brown/70" strokeWidth={2} />
-                <h1 className="font-display text-4xl text-board-brown">
-                  Configuração
-                </h1>
-              </div>
-              <p className="font-body text-sm text-board-brown/60 mt-0.5">
-                Prepare a rodada antes de começar
-              </p>
-            </div>
-          </div>
-          <button
-            onClick={() => setIsRulesOpen(true)}
-            className="p-2 hover:bg-black/10 rounded-full transition-colors"
-            aria-label="Abrir regras"
-          >
-            <Info className="w-6 h-6 text-board-brown" strokeWidth={2} />
-          </button>
         </div>
 
         {/* Players Section */}
@@ -221,46 +219,44 @@ export default function SetupScreen() {
               </p>
             </div>
             {players.length < maxPlayers && (
-              <button
-                onClick={() => setShowAddPlayer(true)}
-                className="p-2 text-board-brown hover:bg-black/10 rounded-full transition-colors"
-                aria-label="Adicionar jogador"
-              >
-                <Plus className="w-5 h-5" strokeWidth={2} />
-              </button>
-            )}
-          </div>
-
-          {players.length === 0 ? (
-            <motion.div
-              initial={{ opacity: 0, y: 10, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-              className="bg-white rounded-card-lg border-2 border-dashed border-board-brown/20 p-10 text-center"
-            >
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-                className="text-5xl mb-4"
-              >
-                👥
-              </motion.div>
-              <p className="font-body text-lg text-board-brown font-semibold mb-2">
-                Convide seus amigos para a mesa
-              </p>
-              <p className="font-body text-sm text-board-brown/60 mb-6">
-                Adicione pelo menos 3 jogadores para começar
-              </p>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setShowAddPlayer(true)}
-                className="px-6 py-3 bg-innocent-card text-white rounded-card-lg font-display text-base shadow-card-lg transition-all hover:opacity-90"
+                className="flex flex-col items-center gap-1 p-2 bg-white rounded-card shadow-card hover:shadow-card-lg hover:bg-innocent-card/10 transition-all"
+                aria-label="Adicionar jogador"
               >
-                Adicionar Jogador
+                <Plus className="w-5 h-5 text-board-brown" strokeWidth={2} />
               </motion.button>
-            </motion.div>
+            )}
+          </div>
+
+          {players.length === 0 ? (
+            <motion.button
+              type="button"
+              onClick={() => setShowAddPlayer(true)}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="w-full px-4 py-4 bg-white rounded-card-lg border-2 border-dashed border-board-brown/30 hover:border-board-brown/50 focus:outline-none focus:ring-2 focus:ring-innocent-card flex items-center gap-3 transition-all"
+            >
+              <div 
+                className="w-20 h-20 flex-shrink-0 rounded-lg bg-cover bg-center bg-no-repeat"
+                style={{ backgroundImage: 'url(/illustrations/adicionar.png)' }}
+                role="img"
+                aria-label="Adicionar jogadores"
+              />
+              <div className="flex-1 text-left">
+                <p className="font-display text-lg text-board-brown mb-0.5">
+                  Adicione jogadores
+                </p>
+                <p className="font-body text-xs text-board-brown/50">
+                  Convide seus amigos para a mesa
+                </p>
+              </div>
+              <Users className="w-5 h-5 text-board-brown/40 flex-shrink-0" strokeWidth={2} />
+            </motion.button>
           ) : (
             <div className="space-y-2">
               <AnimatePresence mode="popLayout">
@@ -310,10 +306,10 @@ export default function SetupScreen() {
                         placeholder="Nome do jogador"
                       />
                       <motion.button
-                        whileHover={{ scale: 1.1, color: "#ef4444" }}
-                        whileTap={{ scale: 0.9 }}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.9, color: "#ef4444" }}
                         onClick={() => handleRemovePlayer(player.id)}
-                        className="p-2 text-board-brown/50 hover:text-impostor-card hover:bg-impostor-card/10 rounded-full transition-colors flex-shrink-0"
+                        className="p-2 text-board-brown/40 hover:text-board-brown/60 active:text-impostor-card rounded-full transition-colors flex-shrink-0 flex items-center"
                         aria-label="Remover jogador"
                       >
                         <Trash2 className="w-4 h-4" strokeWidth={2} />
@@ -355,26 +351,42 @@ export default function SetupScreen() {
               <Palette className="w-5 h-5 text-board-brown/50 flex-shrink-0" strokeWidth={2} />
             </motion.button>
           ) : (
-            <motion.button
-              type="button"
-              onClick={() => setShowThemePicker(true)}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="w-full px-6 py-8 bg-white rounded-card-lg border-2 border-dashed border-board-brown/30 hover:border-board-brown/50 focus:outline-none focus:ring-2 focus:ring-innocent-card flex flex-col items-center gap-3 transition-all"
-            >
-              <div className="text-4xl">🎯</div>
-              <div className="text-center">
-                <p className="font-display text-lg text-board-brown mb-1">
-                  Escolha um tema para começar
-                </p>
-                <p className="font-body text-sm text-board-brown/50">
-                  Selecione o tema da rodada
-                </p>
-              </div>
-              <Palette className="w-5 h-5 text-board-brown/40" strokeWidth={2} />
-            </motion.button>
+            <div>
+              <motion.button
+                type="button"
+                onClick={() => setShowThemePicker(true)}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="w-full px-4 py-4 bg-white rounded-card-lg border-2 border-dashed border-board-brown/30 hover:border-board-brown/50 focus:outline-none focus:ring-2 focus:ring-innocent-card flex items-center gap-3 transition-all"
+              >
+                <div 
+                  className="w-20 h-20 flex-shrink-0 rounded-lg bg-cover bg-center bg-no-repeat"
+                  style={{ backgroundImage: 'url(/illustrations/tema.png)' }}
+                  role="img"
+                  aria-label="Escolher tema"
+                />
+                <div className="flex-1 text-left">
+                  <p className="font-display text-lg text-board-brown mb-0.5">
+                    Escolha um tema
+                  </p>
+                  <p className="font-body text-xs text-board-brown/50">
+                    {hasPlayers ? "Selecione o tema da rodada" : "Selecione o tema da rodada"}
+                  </p>
+                </div>
+                <Palette className="w-5 h-5 text-board-brown/40 flex-shrink-0" strokeWidth={2} />
+              </motion.button>
+              {hasPlayers && !hasTheme && (
+                <motion.p
+                  initial={{ opacity: 0, y: -5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-2 text-center font-body text-sm text-board-brown/60"
+                >
+                  Escolha um tema para continuar
+                </motion.p>
+              )}
+            </div>
           )}
         </div>
 
@@ -534,34 +546,58 @@ export default function SetupScreen() {
       {/* Start Button - Fixed at Bottom */}
       <div className="fixed bottom-0 left-0 right-0 p-4 z-30 bg-board-cream/80 backdrop-blur-sm border-t border-board-brown/10">
         <div className="max-w-md mx-auto">
-          {!canStartGame && (
+          {/* Checklist: apenas quando 1 requisito falta */}
+          {showChecklist && !canStartGame && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-3"
+            >
+              <div className="flex flex-col gap-1.5 bg-white/60 rounded-card p-3 border border-board-brown/10">
+                {!hasTheme && hasPlayers && (
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 rounded-full border-2 border-board-brown/30 flex-shrink-0 flex items-center justify-center">
+                      <X className="w-2.5 h-2.5 text-board-brown/30" strokeWidth={3} />
+                    </div>
+                    <span className="font-body text-xs text-board-brown/50">
+                      Selecione um tema
+                    </span>
+                  </div>
+                )}
+                {!hasPlayers && hasTheme && (
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 rounded-full border-2 border-board-brown/30 flex-shrink-0 flex items-center justify-center">
+                      <X className="w-2.5 h-2.5 text-board-brown/30" strokeWidth={3} />
+                    </div>
+                    <span className="font-body text-xs text-board-brown/50">
+                      Faltam {3 - players.length} jogador{3 - players.length > 1 ? 'es' : ''} para começar
+                    </span>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          )}
+          
+          {/* Mensagem única e inteligente */}
+          {statusMessage && (
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               className="mb-3 text-center"
             >
-              <p className="font-body text-sm text-board-brown/70">
-                {players.length < 3
-                  ? "Adicione pelo menos 3 jogadores"
-                  : !selectedThemeName
-                  ? "Selecione um tema"
-                  : "Tudo pronto? Vamos descobrir o impostor 👀"}
-              </p>
+              <motion.p
+                animate={canStartGame ? { opacity: [1, 0.7, 1] } : {}}
+                transition={canStartGame ? { duration: 2, repeat: Infinity } : {}}
+                className="font-body text-sm text-board-brown/70"
+              >
+                {statusMessage}
+              </motion.p>
             </motion.div>
           )}
-          {canStartGame && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mb-3 text-center"
-            >
-              <p className="font-body text-sm text-board-brown/70">
-                Tudo pronto? Vamos descobrir o impostor 👀
-              </p>
-            </motion.div>
-          )}
+          
           <motion.button
             whileTap={canStartGame ? { scale: 0.95 } : {}}
+            whileHover={canStartGame ? { scale: 1.02 } : {}}
             onClick={handleStartGame}
             disabled={!canStartGame}
             className={`w-full py-6 rounded-card-lg font-display text-2xl shadow-card-3d transition-all flex items-center justify-center gap-3 ${
