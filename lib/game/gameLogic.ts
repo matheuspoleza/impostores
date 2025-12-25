@@ -149,16 +149,15 @@ export function calculateRoundScores(
 
 /**
  * Valida se todos os jogadores votaram
+ * Agora apenas verifica se todos votaram pelo menos uma vez (sem limite máximo)
  */
 export function validateAllVoted(
   round: Round,
   players: Player[]
 ): boolean {
-  const expectedVotesCount = calculateImpostorCount(players.length);
-  
   return players.every((player) => {
     const votes = round.votes[player.id] || [];
-    return votes.length === expectedVotesCount;
+    return votes.length > 0;
   });
 }
 

@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { Info, Check } from "lucide-react";
 import Image from "next/image";
 import { useGameState } from "@/hooks/useGameState";
-import { calculateImpostorCount, validateAllVoted } from "@/lib/game/gameLogic";
+import { validateAllVoted } from "@/lib/game/gameLogic";
 import GameCard from "@/components/cards/GameCard";
 import RulesModal from "./RulesModal";
 import { getDefaultAvatar } from "@/lib/utils/avatars";
@@ -33,7 +33,6 @@ export default function VotingScreen() {
     return null;
   }
 
-  const maxVotes = calculateImpostorCount(players.length);
   const allVoted = validateAllVoted(currentRoundData, players);
 
   const handleVote = (voterId: string, targetId: string) => {
@@ -42,9 +41,8 @@ export default function VotingScreen() {
     if (currentVotes.includes(targetId)) {
       removeVote(voterId, targetId);
     } else {
-      if (currentVotes.length < maxVotes) {
-        vote(voterId, targetId);
-      }
+      // Pode votar em quantos quiser, exceto em si mesmo
+      vote(voterId, targetId);
     }
   };
 
@@ -70,7 +68,7 @@ export default function VotingScreen() {
               🗳️ Votação
             </h1>
             <p className="font-body text-sm text-board-brown/70">
-              Vote em <strong>{maxVotes}</strong> pessoa(s)
+              Vote em quem você acha que é impostor
             </p>
           </div>
           <button
@@ -112,9 +110,11 @@ export default function VotingScreen() {
                             {player.name}
                           </h3>
                         </div>
-                        <span className="font-display text-xl text-innocent-card">
-                          {voteCount}/{maxVotes}
-                        </span>
+                        {voteCount > 0 && (
+                          <span className="font-display text-xl text-innocent-card">
+                            {voteCount} voto{voteCount > 1 ? 's' : ''}
+                          </span>
+                        )}
                       </div>
                     </div>
 
@@ -128,7 +128,7 @@ export default function VotingScreen() {
                           key={targetPlayer.id}
                           whileTap={{ scale: 0.95 }}
                           onClick={() => !isSelf && handleVote(player.id, targetPlayer.id)}
-                          disabled={isSelf || (!isSelected && voteCount >= maxVotes)}
+                          disabled={isSelf}
                           className={`
                             py-4 px-3 rounded-card-lg font-display text-lg transition-all
                             min-h-[60px] flex items-center gap-2
@@ -137,8 +137,7 @@ export default function VotingScreen() {
                                 ? "bg-innocent-card text-white shadow-card-lg"
                                 : "bg-white text-board-brown border-2 border-board-brown/30"
                             }
-                            ${isSelf ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
-                            ${!isSelected && voteCount >= maxVotes ? "opacity-30 cursor-not-allowed" : ""}
+                            ${isSelf ? "opacity-50 cursor-not-allowed" : "cursor-pointer hover:border-board-brown/50"}
                           `}
                         >
                           <div className="relative w-8 h-8 rounded-full overflow-hidden border border-board-brown/20 flex-shrink-0">

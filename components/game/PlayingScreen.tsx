@@ -187,15 +187,16 @@ export default function PlayingScreen() {
               >
                 {isImpostor ? (
                   <>
-                    {/* Ícone Impostor */}
+                    {/* Ilustração Impostor */}
                     <motion.div
                       initial={{ scale: 0, rotate: -180 }}
                       animate={{ scale: 1, rotate: 0 }}
                       transition={{ type: "spring", stiffness: 200 }}
-                      className="text-9xl mb-6 drop-shadow-2xl"
-                    >
-                      🕵️
-                    </motion.div>
+                      className="w-48 h-48 mx-auto mb-6 rounded-lg bg-cover bg-center bg-no-repeat drop-shadow-2xl"
+                      style={{ backgroundImage: 'url(/illustrations/impostor.png)' }}
+                      role="img"
+                      aria-label="Impostor"
+                    />
                     
                     <motion.h3
                       initial={{ y: 20, opacity: 0 }}
@@ -235,15 +236,16 @@ export default function PlayingScreen() {
                   </>
                 ) : (
                   <>
-                    {/* Ícone Inocente */}
+                    {/* Ilustração Inocente */}
                     <motion.div
                       initial={{ scale: 0, rotate: -180 }}
                       animate={{ scale: 1, rotate: 0 }}
                       transition={{ type: "spring", stiffness: 200 }}
-                      className="text-9xl mb-6 drop-shadow-2xl"
-                    >
-                      ✅
-                    </motion.div>
+                      className="w-48 h-48 mx-auto mb-6 rounded-lg bg-cover bg-center bg-no-repeat drop-shadow-2xl"
+                      style={{ backgroundImage: 'url(/illustrations/inoscente.png)' }}
+                      role="img"
+                      aria-label="Inocente"
+                    />
                     
                     <motion.h3
                       initial={{ y: 20, opacity: 0 }}
