@@ -93,32 +93,17 @@ export default function PlayingScreen() {
       </div>
 
       {/* Tela Principal de Revelação */}
-      <div className={`${isRevealed && allRevealed ? 'flex-1 min-h-0' : 'flex-1 flex items-center justify-center'} w-full relative z-0`}>
-        <div className={`${isRevealed && allRevealed ? 'h-full flex flex-col' : ''}`}>
-          <PeelRevealScreen
-            isRevealed={isRevealed}
-            onReveal={handleReveal}
-            currentPlayer={currentPlayer}
-            isImpostor={isImpostor}
-            currentRoundData={currentRoundData}
-            allRevealed={allRevealed}
-            onSwipeRight={handleSwipeRight}
-          />
-          
-          {/* Botão de ação quando todos revelaram */}
-          {isRevealed && allRevealed && (
-            <div className="flex-shrink-0 w-full flex justify-center items-center py-6 px-4">
-              <motion.button
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                onClick={() => router.push("/voting")}
-                className="px-8 py-4 bg-board-brown text-board-cream rounded-full font-display text-xl shadow-card-lg"
-              >
-                Iniciar Votação
-              </motion.button>
-            </div>
-          )}
-        </div>
+      <div className="flex-1 flex items-center justify-center w-full relative z-0 min-h-0">
+        <PeelRevealScreen
+          isRevealed={isRevealed}
+          onReveal={handleReveal}
+          currentPlayer={currentPlayer}
+          isImpostor={isImpostor}
+          currentRoundData={currentRoundData}
+          allRevealed={allRevealed}
+          onSwipeRight={handleSwipeRight}
+          onStartVoting={() => router.push("/voting")}
+        />
       </div>
 
       {/* Progress Bar */}

@@ -13,6 +13,7 @@ interface PeelRevealScreenProps {
   currentRoundData: Round;
   allRevealed: boolean;
   onSwipeRight?: () => void;
+  onStartVoting?: () => void;
 }
 
 export default function PeelRevealScreen({
@@ -23,12 +24,14 @@ export default function PeelRevealScreen({
   currentRoundData,
   allRevealed,
   onSwipeRight,
+  onStartVoting,
 }: PeelRevealScreenProps) {
   // Se já está revelado, mostrar o conteúdo
   if (isRevealed) {
     return (
-      <div className="h-full w-full flex items-center justify-center">
-        <div className="text-center w-full max-w-md px-4">
+      <div className="h-full w-full flex flex-col items-center justify-center py-4">
+        <div className="flex-1 flex items-center justify-center w-full overflow-y-auto">
+          <div className="text-center w-full max-w-md px-4">
           {isImpostor ? (
             <>
               <div
@@ -81,15 +84,26 @@ export default function PeelRevealScreen({
             </>
           )}
 
-          {/* Botão para próximo jogador */}
-          {!allRevealed && onSwipeRight && (
+          </div>
+        </div>
+        
+        {/* Botão fixo na parte inferior */}
+        <div className="flex-shrink-0 w-full max-w-md px-4 pt-4">
+          {!allRevealed && onSwipeRight ? (
             <button
               onClick={onSwipeRight}
               className="w-full px-6 py-4 bg-board-brown text-board-cream rounded-full font-display text-lg shadow-card-lg hover:bg-board-brown/90 transition-colors"
             >
               Próximo Jogador →
             </button>
-          )}
+          ) : allRevealed && onStartVoting ? (
+            <button
+              onClick={onStartVoting}
+              className="w-full px-6 py-4 bg-board-brown text-board-cream rounded-full font-display text-lg shadow-card-lg hover:bg-board-brown/90 transition-colors"
+            >
+              Iniciar Votação
+            </button>
+          ) : null}
         </div>
       </div>
     );
