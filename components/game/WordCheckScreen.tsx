@@ -50,37 +50,37 @@ export default function WordCheckScreen() {
   };
 
   return (
-    <div className="h-screen h-dvh w-full bg-gradient-to-br from-board-cream via-board-beige to-board-cream dark:from-board-dark dark:via-board-brown dark:to-board-dark p-4 overflow-y-auto overflow-x-hidden">
+    <div className="h-screen h-dvh w-full p-4 overflow-y-auto overflow-x-hidden">
       <div className="max-w-md mx-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
-          <h1 className="font-display text-4xl text-board-brown dark:text-board-cream">
+          <h1 className="font-display text-4xl text-board-brown">
             ⚠️ Verificação
           </h1>
           <button
             onClick={() => setIsRulesOpen(true)}
-            className="p-2 hover:bg-black/10 dark:hover:bg-white/10 rounded-full transition-colors"
+            className="p-2 hover:bg-black/10 rounded-full transition-colors"
             aria-label="Abrir regras"
           >
-            <Info className="w-6 h-6 text-board-brown dark:text-board-cream" />
+            <Info className="w-6 h-6 text-board-brown" />
           </button>
         </div>
 
         {/* Secret Word */}
         <GameCard variant="theme" size="md" className="mb-6">
           <div className="flex flex-col items-center justify-center h-full text-center">
-            <p className="font-body text-sm mb-2 text-blue-800 dark:text-blue-200">Palavra Secreta</p>
-            <p className="font-display text-5xl font-black text-blue-900 dark:text-blue-100">{currentRoundData.secretWord}</p>
+            <p className="font-body text-sm mb-2 text-blue-800">Palavra Secreta</p>
+            <p className="font-display text-5xl font-black text-blue-900">{currentRoundData.secretWord}</p>
           </div>
         </GameCard>
 
         {/* Question */}
         <GameCard variant="default" size="sm" className="mb-6">
           <div className="flex flex-col items-center justify-center h-full text-center">
-            <h2 className="font-display text-2xl mb-2 text-board-brown dark:text-board-cream">
+            <h2 className="font-display text-2xl mb-2 text-board-brown">
               Algum impostor falou a palavra?
             </h2>
-            <p className="font-body text-sm text-board-brown/70 dark:text-board-cream/70">
+            <p className="font-body text-sm text-board-brown/70">
               Toque nos impostores que disseram a palavra
             </p>
           </div>
@@ -114,7 +114,7 @@ export default function WordCheckScreen() {
                         className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all ${
                           spokeWord
                             ? "bg-impostor-card border-impostor-dark"
-                            : "bg-white dark:bg-board-brown border-board-brown dark:border-board-cream"
+                            : "bg-white border-board-brown"
                         }`}
                       >
                         {spokeWord && (
@@ -142,7 +142,7 @@ export default function WordCheckScreen() {
             w-full py-6 rounded-card-lg font-display text-2xl
             ${allChecked
               ? "bg-innocent-card text-white shadow-card-3d"
-              : "bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed"
+              : "bg-gray-300 text-gray-500 cursor-not-allowed"
             }
             transition-all
           `}

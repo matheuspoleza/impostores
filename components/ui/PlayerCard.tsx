@@ -19,9 +19,9 @@ export default function PlayerCard({
   const baseClasses = "rounded-lg p-4 border-2 transition-all";
   
   const variantClasses = {
-    default: "bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600",
-    selected: "bg-blue-100 dark:bg-blue-900 border-blue-500",
-    disabled: "bg-gray-100 dark:bg-gray-900 border-gray-400 opacity-50",
+    default: "bg-white border-gray-300",
+    selected: "bg-blue-100 border-blue-500",
+    disabled: "bg-gray-100 border-gray-400 opacity-50",
   };
 
   const Component = onClick && variant !== "disabled" ? motion.div : "div";
@@ -43,7 +43,7 @@ export default function PlayerCard({
       <div className="flex justify-between items-center">
         <span className="font-semibold text-lg">{player.name}</span>
         {showScore && (
-          <span className="text-sm font-bold text-blue-600 dark:text-blue-400">
+          <span className="text-sm font-bold text-blue-600">
             {player.totalScore} pts
           </span>
         )}

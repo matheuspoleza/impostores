@@ -37,11 +37,11 @@ export default function GameCard({
   };
 
   const variantClasses = {
-    default: "bg-white dark:bg-board-dark text-board-dark dark:text-white border-2 border-board-brown",
-    innocent: "bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900 dark:to-green-800 text-green-900 dark:text-green-100 border-4 border-innocent-card shadow-[0_0_0_4px_rgba(16,185,129,0.2)]",
-    impostor: "bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900 dark:to-red-800 text-red-900 dark:text-red-100 border-4 border-impostor-card shadow-[0_0_0_4px_rgba(239,68,68,0.2)]",
-    player: "bg-gradient-to-br from-board-cream to-white dark:from-board-dark dark:to-board-brown text-board-dark dark:text-white border-2 border-board-brown",
-    theme: "bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 text-blue-900 dark:text-blue-100 border-4 border-blue-600",
+    default: "bg-white text-board-dark border-2 border-board-brown",
+    innocent: "bg-gradient-to-br from-green-50 to-green-100 text-green-900 border-4 border-innocent-card shadow-[0_0_0_4px_rgba(16,185,129,0.2)]",
+    impostor: "bg-gradient-to-br from-red-50 to-red-100 text-red-900 border-4 border-impostor-card shadow-[0_0_0_4px_rgba(239,68,68,0.2)]",
+    player: "bg-gradient-to-br from-board-cream to-white text-board-dark border-2 border-board-brown",
+    theme: "bg-gradient-to-br from-blue-50 to-blue-100 text-blue-900 border-4 border-blue-600",
   };
 
   const shadowClasses = {

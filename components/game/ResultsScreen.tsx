@@ -57,19 +57,19 @@ export default function ResultsScreen() {
   };
 
   return (
-    <div className="h-screen h-dvh w-full bg-gradient-to-br from-board-cream via-board-beige to-board-cream dark:from-board-dark dark:via-board-brown dark:to-board-dark p-4 overflow-y-auto overflow-x-hidden">
+    <div className="h-screen h-dvh w-full p-4 overflow-y-auto overflow-x-hidden">
       <div className="max-w-md mx-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
-          <h1 className="font-display text-4xl text-board-brown dark:text-board-cream">
+          <h1 className="font-display text-4xl text-board-brown">
             🎭 Revelação!
           </h1>
           <button
             onClick={() => setIsRulesOpen(true)}
-            className="p-2 hover:bg-black/10 dark:hover:bg-white/10 rounded-full transition-colors"
+            className="p-2 hover:bg-black/10 rounded-full transition-colors"
             aria-label="Abrir regras"
           >
-            <Info className="w-6 h-6 text-board-brown dark:text-board-cream" />
+            <Info className="w-6 h-6 text-board-brown" />
           </button>
         </div>
 
@@ -81,22 +81,22 @@ export default function ResultsScreen() {
         >
           <GameCard variant="theme" size="lg">
             <div className="flex flex-col items-center justify-center h-full text-center">
-              <h2 className="font-display text-3xl mb-6 text-blue-900 dark:text-blue-100">Os Impostores Eram:</h2>
+              <h2 className="font-display text-3xl mb-6 text-blue-900">Os Impostores Eram:</h2>
               <div className="space-y-3 mb-6">
                 {impostors.map((impostor) => (
                   <motion.div
                     key={impostor.id}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="font-display text-2xl text-blue-900 dark:text-blue-100"
+                    className="font-display text-2xl text-blue-900"
                   >
                     🕵️ {impostor.name}
                   </motion.div>
                 ))}
               </div>
-              <div className="border-t-2 border-blue-300 dark:border-blue-700 pt-6 mt-6">
-                <p className="font-body text-sm mb-2 text-blue-800 dark:text-blue-200">Palavra Secreta:</p>
-                <p className="font-display text-4xl font-black text-blue-900 dark:text-blue-100">{currentRoundData.secretWord}</p>
+              <div className="border-t-2 border-blue-300 pt-6 mt-6">
+                <p className="font-body text-sm mb-2 text-blue-800">Palavra Secreta:</p>
+                <p className="font-display text-4xl font-black text-blue-900">{currentRoundData.secretWord}</p>
               </div>
             </div>
           </GameCard>
@@ -104,7 +104,7 @@ export default function ResultsScreen() {
 
         {/* Votes Table */}
         <GameCard variant="default" size="md" className="mb-6">
-          <h3 className="font-display text-2xl mb-4 text-board-brown dark:text-board-cream">
+          <h3 className="font-display text-2xl mb-4 text-board-brown">
             Votos Recebidos
           </h3>
           <div className="space-y-2">
@@ -114,13 +114,13 @@ export default function ResultsScreen() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="flex justify-between items-center p-3 bg-board-beige/50 dark:bg-board-brown/50 rounded-card"
+                className="flex justify-between items-center p-3 bg-board-beige/50 rounded-card"
               >
                 <div className="flex items-center gap-3">
-                  <span className="font-display text-xl text-board-brown/50 dark:text-board-cream/50 w-6">
+                  <span className="font-display text-xl text-board-brown/50 w-6">
                     {index + 1}º
                   </span>
-                  <span className="font-display text-lg text-board-brown dark:text-board-cream">
+                  <span className="font-display text-lg text-board-brown">
                     {player.name}
                   </span>
                   {currentRoundData.impostors.includes(player.id) && (
@@ -137,7 +137,7 @@ export default function ResultsScreen() {
 
         {/* Scores */}
         <GameCard variant="default" size="sm" className="mb-6">
-          <h3 className="font-display text-xl mb-3 text-board-brown dark:text-board-cream">
+          <h3 className="font-display text-xl mb-3 text-board-brown">
             Pontuação da Rodada
           </h3>
           <div className="space-y-2">
@@ -148,9 +148,9 @@ export default function ResultsScreen() {
               return (
                 <div
                   key={player.id}
-                  className="flex justify-between items-center p-2 bg-board-beige/50 dark:bg-board-brown/50 rounded-card"
+                  className="flex justify-between items-center p-2 bg-board-beige/50 rounded-card"
                 >
-                  <span className={`font-body ${isImpostor ? "text-impostor-card" : "text-board-brown dark:text-board-cream"}`}>
+                  <span className={`font-body ${isImpostor ? "text-impostor-card" : "text-board-brown"}`}>
                     {player.name} {isImpostor && "🕵️"}
                   </span>
                   <span
@@ -159,7 +159,7 @@ export default function ResultsScreen() {
                         ? "text-innocent-card"
                         : score < 0
                         ? "text-impostor-card"
-                        : "text-board-brown/50 dark:text-board-cream/50"
+                        : "text-board-brown/50"
                     }`}
                   >
                     {score > 0 ? "+" : ""}
@@ -184,7 +184,7 @@ export default function ResultsScreen() {
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={handleFinishGame}
-            className="w-full py-6 bg-board-brown dark:bg-board-cream text-board-cream dark:text-board-brown rounded-card-lg font-display text-2xl shadow-card-lg flex items-center justify-center gap-3"
+            className="w-full py-6 bg-board-brown text-board-cream rounded-card-lg font-display text-2xl shadow-card-lg flex items-center justify-center gap-3"
           >
             <Trophy className="w-6 h-6" />
             Finalizar Jogo

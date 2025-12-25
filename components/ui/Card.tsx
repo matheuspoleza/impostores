@@ -19,9 +19,9 @@ export default function Card({
   const baseClasses = "rounded-xl p-6 shadow-lg";
   
   const variantClasses = {
-    default: "bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100",
-    innocent: "bg-innocent-light dark:bg-innocent-dark text-white",
-    impostor: "bg-impostor-light dark:bg-impostor-dark text-white",
+    default: "bg-white text-gray-900",
+    innocent: "bg-innocent-light text-white",
+    impostor: "bg-impostor-light text-white",
   };
 
   const Component = onClick ? motion.div : "div";

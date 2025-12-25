@@ -3,12 +3,11 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, Trash2, Info, Play } from "lucide-react";
+import { Plus, Trash2, Play, Info } from "lucide-react";
 import Image from "next/image";
 import { useGameState } from "@/hooks/useGameState";
-import GameCard from "@/components/cards/GameCard";
-import CardStack from "@/components/cards/CardStack";
 import RulesModal from "./RulesModal";
+import Toast from "@/components/ui/Toast";
 import { themes } from "@/lib/data/themes";
 
 export default function SetupScreen() {
@@ -19,6 +18,8 @@ export default function SetupScreen() {
   const [isRulesOpen, setIsRulesOpen] = useState(false);
   const [showAddPlayer, setShowAddPlayer] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [toastMessage, setToastMessage] = useState("");
+  const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
     loadSavedState();
@@ -41,15 +42,28 @@ export default function SetupScreen() {
     removePlayer(id);
   };
 
+  const showToastMessage = (message: string) => {
+    setToastMessage(message);
+    setShowToast(true);
+    setTimeout(() => {
+      setShowToast(false);
+    }, 3000);
+  };
+
   const handleStartGame = () => {
     if (players.length < 2) {
-      alert("Adicione pelo menos 2 jogadores!");
+      showToastMessage("Adicione pelo menos 2 jogadores");
       return;
     }
 
-    const theme = themes.find((t) => t.name === selectedThemeName) || themes[0];
+    if (!selectedThemeName) {
+      showToastMessage("Selecione um tema");
+      return;
+    }
+
+    const theme = themes.find((t) => t.name === selectedThemeName);
     if (!theme) {
-      alert("Selecione um tema!");
+      showToastMessage("Selecione um tema válido");
       return;
     }
 
@@ -58,22 +72,9 @@ export default function SetupScreen() {
     router.push("/playing");
   };
 
-  const canStart = players.length >= 2 && selectedThemeName !== "";
-
-  const themeCards = themes.map((theme) => ({
-    id: theme.name,
-    content: (
-      <div className="text-center">
-        <h3 className="font-display text-3xl mb-2">{theme.name}</h3>
-        <p className="font-body text-sm opacity-70">{theme.words.length} palavras</p>
-      </div>
-    ),
-    variant: selectedThemeName === theme.name ? "theme" : "default" as const,
-  }));
-
   if (isLoading) {
     return (
-      <div className="h-screen h-dvh w-full bg-gradient-to-br from-board-cream via-board-beige to-board-cream dark:from-board-dark dark:via-board-brown dark:to-board-dark flex items-center justify-center fixed inset-0 overflow-hidden">
+      <div className="h-screen h-dvh w-full flex items-center justify-center fixed inset-0 overflow-hidden">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -107,7 +108,7 @@ export default function SetupScreen() {
   }
 
   return (
-    <div className="h-screen h-dvh w-full bg-gradient-to-br from-board-cream via-board-beige to-board-cream dark:from-board-dark dark:via-board-brown dark:to-board-dark p-4 overflow-y-auto overflow-x-hidden">
+    <div className="h-screen h-dvh w-full p-4 overflow-y-auto overflow-x-hidden pb-32">
       <div className="max-w-md mx-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
@@ -115,76 +116,69 @@ export default function SetupScreen() {
             <Image
               src="/logo.png"
               alt="Logo"
-              width={32}
-              height={32}
+              width={48}
+              height={48}
               className="object-contain"
             />
-            <h1 className="font-display text-4xl text-board-brown dark:text-board-cream">
-              🎮 Configuração
+            <h1 className="font-display text-4xl text-board-brown">
+              Configuração
             </h1>
           </div>
           <button
             onClick={() => setIsRulesOpen(true)}
-            className="p-2 hover:bg-black/10 dark:hover:bg-white/10 rounded-full transition-colors"
+            className="p-2 hover:bg-black/10 rounded-full transition-colors"
             aria-label="Abrir regras"
           >
-            <Info className="w-6 h-6 text-board-brown dark:text-board-cream" />
+            <Info className="w-6 h-6 text-board-brown" />
           </button>
         </div>
 
         {/* Players Section */}
         <div className="mb-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="font-display text-2xl text-board-brown dark:text-board-cream">
+          <div className="flex justify-between items-center mb-3">
+            <h2 className="font-display text-2xl text-board-brown">
               Jogadores ({players.length})
             </h2>
             <button
               onClick={() => setShowAddPlayer(true)}
-              className="p-3 bg-board-brown dark:bg-board-cream text-board-cream dark:text-board-brown rounded-full shadow-card-lg"
+              className="p-2 text-board-brown hover:bg-black/10 rounded-full transition-colors"
+              aria-label="Adicionar jogador"
             >
-              <Plus className="w-6 h-6" />
+              <Plus className="w-5 h-5" />
             </button>
           </div>
 
           {players.length === 0 ? (
-            <GameCard variant="player" size="sm" className="!p-4">
-              <div className="flex items-center justify-center h-full">
-                <p className="font-display text-lg text-board-brown/60 dark:text-board-cream/60">
-                  Adicione jogadores para começar
-                </p>
-              </div>
-            </GameCard>
+            <p className="text-center py-4 font-body text-sm text-board-brown/60">
+              Adicione jogadores para começar
+            </p>
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-1">
               {players.map((player, index) => (
                 <motion.div
                   key={player.id}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 20 }}
+                  className="flex items-center gap-3 py-2 border-b border-board-brown/10 last:border-b-0"
                 >
-                  <GameCard
-                    variant="player"
-                    size="sm"
-                    className="!p-4"
+                  <span className="text-board-brown/50 font-body text-sm w-6 flex-shrink-0">
+                    {index + 1}.
+                  </span>
+                  <input
+                    type="text"
+                    value={player.name}
+                    onChange={(e) => updatePlayerName(player.id, e.target.value)}
+                    className="flex-1 bg-transparent border-none outline-none font-body text-base text-board-brown min-w-0"
+                    placeholder="Nome do jogador"
+                  />
+                  <button
+                    onClick={() => handleRemovePlayer(player.id)}
+                    className="p-1.5 text-impostor-card hover:bg-impostor-card/20 rounded-full transition-colors flex-shrink-0"
+                    aria-label="Remover jogador"
                   >
-                    <div className="flex items-center gap-3 w-full h-full">
-                      <input
-                        type="text"
-                        value={player.name}
-                        onChange={(e) => updatePlayerName(player.id, e.target.value)}
-                        className="flex-1 bg-transparent border-none outline-none font-display text-xl text-board-brown dark:text-board-cream min-w-0"
-                        placeholder="Nome do jogador"
-                      />
-                      <button
-                        onClick={() => handleRemovePlayer(player.id)}
-                        className="p-2 text-impostor-card hover:bg-impostor-card/20 rounded-full transition-colors flex-shrink-0"
-                        aria-label="Remover jogador"
-                      >
-                        <Trash2 className="w-5 h-5" />
-                      </button>
-                    </div>
-                  </GameCard>
+                    <Trash2 className="w-4 h-4" />
+                  </button>
                 </motion.div>
               ))}
             </div>
@@ -193,73 +187,31 @@ export default function SetupScreen() {
 
         {/* Theme Selection */}
         <div className="mb-6">
-          <h2 className="font-display text-2xl text-board-brown dark:text-board-cream mb-4">
+          <h2 className="font-display text-2xl text-board-brown mb-4">
             Tema
           </h2>
-          <div className="space-y-3 max-h-[300px] overflow-y-auto px-1 -mx-1">
+          <select
+            value={selectedThemeName}
+            onChange={(e) => setSelectedThemeName(e.target.value)}
+            className="w-full px-4 py-4 bg-white rounded-card-lg border-2 border-board-brown font-display text-lg text-board-brown focus:outline-none focus:ring-2 focus:ring-innocent-card appearance-none cursor-pointer"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%238B7355' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'right 1rem center',
+              backgroundSize: '1.5rem',
+              paddingRight: '3rem'
+            }}
+          >
+            <option value="" disabled>
+              Selecione um tema
+            </option>
             {themes.map((theme) => (
-              <motion.div
-                key={theme.name}
-                whileTap={{ scale: 0.98 }}
-                className="px-1"
-              >
-                <GameCard
-                  variant="default"
-                  size="sm"
-                  onClick={() => setSelectedThemeName(theme.name)}
-                  className={`cursor-pointer ${
-                    selectedThemeName === theme.name 
-                      ? "bg-blue-50 dark:bg-blue-900/30 border-4 border-blue-600 shadow-lg" 
-                      : ""
-                  }`}
-                >
-                  <div className="flex flex-col items-center justify-center h-full text-center">
-                    <h3 className={`font-display text-2xl mb-1 ${
-                      selectedThemeName === theme.name 
-                        ? "text-blue-700 dark:text-blue-300 font-black" 
-                        : "text-board-brown dark:text-board-cream"
-                    }`}>
-                      {theme.name}
-                    </h3>
-                    <p className={`font-body text-xs ${
-                      selectedThemeName === theme.name 
-                        ? "text-blue-600 dark:text-blue-400" 
-                        : "text-board-brown/70 dark:text-board-cream/70"
-                    }`}>
-                      {theme.words.length} palavras
-                    </p>
-                  </div>
-                </GameCard>
-              </motion.div>
+              <option key={theme.name} value={theme.name}>
+                {theme.name} ({theme.words.length} palavras)
+              </option>
             ))}
-          </div>
+          </select>
         </div>
-
-        {/* Start Button */}
-        <motion.button
-          whileTap={{ scale: 0.95 }}
-          onClick={handleStartGame}
-          disabled={!canStart}
-          className={`
-            w-full py-6 rounded-card-lg font-display text-2xl
-            ${canStart
-              ? "bg-innocent-card text-white shadow-card-3d"
-              : "bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed"
-            }
-            transition-all
-          `}
-        >
-          <div className="flex items-center justify-center gap-3">
-            <Play className="w-6 h-6" />
-            Iniciar Jogo
-          </div>
-        </motion.button>
-
-        {players.length < 2 && (
-          <p className="text-center mt-4 font-body text-sm text-impostor-card">
-            Adicione pelo menos 2 jogadores
-          </p>
-        )}
 
         {/* Add Player Modal */}
         <AnimatePresence>
@@ -276,9 +228,9 @@ export default function SetupScreen() {
                 initial={{ y: "100%" }}
                 animate={{ y: 0 }}
                 exit={{ y: "100%" }}
-                className="fixed bottom-0 left-0 right-0 bg-board-cream dark:bg-board-dark rounded-t-3xl p-6 z-50 shadow-card-3d"
+                className="fixed bottom-0 left-0 right-0 bg-board-cream rounded-t-3xl p-6 z-50 shadow-card-3d"
               >
-                <h3 className="font-display text-2xl mb-4 text-board-brown dark:text-board-cream">
+                <h3 className="font-display text-2xl mb-4 text-board-brown">
                   Adicionar Jogador
                 </h3>
                 <input
@@ -288,12 +240,12 @@ export default function SetupScreen() {
                   onKeyPress={(e) => e.key === "Enter" && handleAddPlayer()}
                   placeholder="Nome do jogador"
                   autoFocus
-                  className="w-full px-4 py-4 bg-white dark:bg-board-brown rounded-card-lg border-2 border-board-brown dark:border-board-cream font-body text-lg text-board-brown dark:text-board-cream mb-4 focus:outline-none focus:ring-2 focus:ring-innocent-card"
+                  className="w-full px-4 py-4 bg-white rounded-card-lg border-2 border-board-brown font-body text-lg text-board-brown mb-4 focus:outline-none focus:ring-2 focus:ring-innocent-card"
                 />
                 <div className="flex gap-3">
                   <button
                     onClick={() => setShowAddPlayer(false)}
-                    className="flex-1 py-4 bg-gray-200 dark:bg-gray-700 rounded-card-lg font-display text-lg"
+                    className="flex-1 py-4 bg-gray-200 rounded-card-lg font-display text-lg"
                   >
                     Cancelar
                   </button>
@@ -312,6 +264,29 @@ export default function SetupScreen() {
         {/* Rules Modal */}
         <RulesModal isOpen={isRulesOpen} onClose={() => setIsRulesOpen(false)} />
       </div>
+
+      {/* Start Button - Fixed at Bottom */}
+      <div className="fixed bottom-0 left-0 right-0 p-4 z-30">
+        <div className="max-w-md mx-auto">
+          <motion.button
+            whileTap={{ scale: 0.95 }}
+            onClick={handleStartGame}
+            className="w-full py-6 rounded-card-lg font-display text-2xl bg-innocent-card text-white shadow-card-3d transition-all hover:opacity-90"
+          >
+            <div className="flex items-center justify-center gap-3">
+              <Play className="w-6 h-6" />
+              Iniciar Jogo
+            </div>
+          </motion.button>
+        </div>
+      </div>
+
+      {/* Toast */}
+      <Toast
+        message={toastMessage}
+        isVisible={showToast}
+        onClose={() => setShowToast(false)}
+      />
     </div>
   );
 }

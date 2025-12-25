@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 export default function Loading() {
   return (
-    <div className="h-screen w-full bg-gradient-to-br from-board-cream via-board-beige to-board-cream dark:from-board-dark dark:via-board-brown dark:to-board-dark flex items-center justify-center fixed inset-0">
+    <div className="h-screen w-full flex items-center justify-center fixed inset-0">
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -36,7 +36,7 @@ export default function Loading() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
-          className="text-board-brown dark:text-board-cream font-display text-xl"
+          className="text-board-brown font-display text-xl"
         >
           Carregando...
         </motion.div>

@@ -17,7 +17,7 @@ export default function Home() {
   }, [router]);
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-b from-[#fef9f3] to-[#f5f1e8] dark:from-[#3d3526] dark:to-[#2d261c]">
+    <div className="fixed inset-0 flex items-center justify-center">
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}

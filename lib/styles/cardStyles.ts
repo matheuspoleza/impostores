@@ -3,10 +3,10 @@
  */
 
 export const cardVariants = {
-  default: "bg-white dark:bg-board-dark text-board-dark dark:text-white",
+  default: "bg-white text-board-dark",
   innocent: "bg-gradient-to-br from-innocent-card to-innocent-light text-white",
   impostor: "bg-gradient-to-br from-impostor-card to-impostor-light text-white",
-  player: "bg-gradient-to-br from-board-cream to-white dark:from-board-dark dark:to-board-brown",
+  player: "bg-gradient-to-br from-board-cream to-white",
   theme: "bg-gradient-to-br from-blue-400 to-purple-500 text-white",
 } as const;
 

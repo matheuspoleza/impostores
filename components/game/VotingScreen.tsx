@@ -59,24 +59,24 @@ export default function VotingScreen() {
   };
 
   return (
-    <div className="h-screen h-dvh w-full bg-gradient-to-br from-board-cream via-board-beige to-board-cream dark:from-board-dark dark:via-board-brown dark:to-board-dark p-4 overflow-y-auto overflow-x-hidden">
+    <div className="h-screen h-dvh w-full p-4 overflow-y-auto overflow-x-hidden">
       <div className="max-w-md mx-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <div>
-            <h1 className="font-display text-4xl text-board-brown dark:text-board-cream mb-2">
+            <h1 className="font-display text-4xl text-board-brown mb-2">
               🗳️ Votação
             </h1>
-            <p className="font-body text-sm text-board-brown/70 dark:text-board-cream/70">
+            <p className="font-body text-sm text-board-brown/70">
               Vote em <strong>{maxVotes}</strong> pessoa(s)
             </p>
           </div>
           <button
             onClick={() => setIsRulesOpen(true)}
-            className="p-2 hover:bg-black/10 dark:hover:bg-white/10 rounded-full transition-colors"
+            className="p-2 hover:bg-black/10 rounded-full transition-colors"
             aria-label="Abrir regras"
           >
-            <Info className="w-6 h-6 text-board-brown dark:text-board-cream" />
+            <Info className="w-6 h-6 text-board-brown" />
           </button>
         </div>
 
@@ -96,7 +96,7 @@ export default function VotingScreen() {
                   <div className="flex flex-col h-full">
                     <div className="mb-4">
                       <div className="flex justify-between items-center mb-3">
-                        <h3 className="font-display text-2xl text-board-brown dark:text-board-cream">
+                        <h3 className="font-display text-2xl text-board-brown">
                           {player.name}
                         </h3>
                         <span className="font-display text-xl text-innocent-card">
@@ -122,7 +122,7 @@ export default function VotingScreen() {
                             ${
                               isSelected
                                 ? "bg-innocent-card text-white shadow-card-lg"
-                                : "bg-white dark:bg-board-brown text-board-brown dark:text-board-cream border-2 border-board-brown/30"
+                                : "bg-white text-board-brown border-2 border-board-brown/30"
                             }
                             ${isSelf ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
                             ${!isSelected && voteCount >= maxVotes ? "opacity-30 cursor-not-allowed" : ""}
@@ -149,7 +149,7 @@ export default function VotingScreen() {
             w-full py-6 rounded-card-lg font-display text-2xl mb-4
             ${allVoted
               ? "bg-innocent-card text-white shadow-card-3d"
-              : "bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed"
+              : "bg-gray-300 text-gray-500 cursor-not-allowed"
             }
             transition-all
           `}
@@ -168,7 +168,7 @@ export default function VotingScreen() {
 
         {/* Vote Summary */}
         <GameCard variant="default" size="sm" className="mt-4">
-          <h3 className="font-display text-xl mb-3 text-board-brown dark:text-board-cream">
+          <h3 className="font-display text-xl mb-3 text-board-brown">
             Votos Recebidos
           </h3>
           <div className="space-y-2">
@@ -178,9 +178,9 @@ export default function VotingScreen() {
               .map(({ player, votes }) => (
                 <div
                   key={player.id}
-                  className="flex justify-between items-center p-2 bg-board-beige/50 dark:bg-board-brown/50 rounded-card"
+                  className="flex justify-between items-center p-2 bg-board-beige/50 rounded-card"
                 >
-                  <span className="font-body text-board-brown dark:text-board-cream">{player.name}</span>
+                  <span className="font-body text-board-brown">{player.name}</span>
                   <span className="font-display text-lg text-innocent-card">{votes}</span>
                 </div>
               ))}

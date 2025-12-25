@@ -76,7 +76,7 @@ export default function PlayingScreen() {
   }
 
   return (
-    <div className="h-screen h-dvh w-full bg-gradient-to-br from-board-cream via-board-beige to-board-cream dark:from-board-dark dark:via-board-brown dark:to-board-dark flex flex-col items-center justify-center p-4 relative overflow-hidden">
+    <div className="h-screen h-dvh w-full flex flex-col items-center justify-center p-4 relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="w-full h-full" style={{
@@ -93,19 +93,19 @@ export default function PlayingScreen() {
       {/* Header Minimizado */}
       <div className="absolute top-4 left-4 right-4 flex justify-between items-center z-10">
         <div className="flex items-center gap-2">
-          <span className="font-display text-2xl text-board-brown dark:text-board-cream">
+          <span className="font-display text-2xl text-board-brown">
             R{currentRound}
           </span>
-          <span className="px-3 py-1 bg-board-brown/20 dark:bg-board-cream/20 rounded-full text-xs font-bold text-board-brown dark:text-board-cream">
+          <span className="px-3 py-1 bg-board-brown/20 rounded-full text-xs font-bold text-board-brown">
             {currentRoundData.theme}
           </span>
         </div>
         <button
           onClick={() => setIsRulesOpen(true)}
-          className="p-2 hover:bg-black/10 dark:hover:bg-white/10 rounded-full transition-colors"
+          className="p-2 hover:bg-black/10 rounded-full transition-colors"
           aria-label="Abrir regras"
         >
-          <Info className="w-5 h-5 text-board-brown dark:text-board-cream" />
+          <Info className="w-5 h-5 text-board-brown" />
         </button>
       </div>
 
@@ -144,7 +144,7 @@ export default function PlayingScreen() {
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.3 }}
-                  className="font-display text-5xl mb-4 text-board-dark dark:text-board-cream"
+                  className="font-display text-5xl mb-4 text-board-dark"
                 >
                   {currentPlayer.name}
                 </motion.h2>
@@ -154,7 +154,7 @@ export default function PlayingScreen() {
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.4 }}
-                  className="font-body text-lg text-board-brown/70 dark:text-board-cream/70 mb-8"
+                  className="font-body text-lg text-board-brown/70 mb-8"
                 >
                   Deslize para cima ou toque para revelar
                 </motion.p>
@@ -193,7 +193,7 @@ export default function PlayingScreen() {
                       initial={{ y: 20, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       transition={{ delay: 0.1 }}
-                      className="font-display text-4xl mb-6 text-red-900 dark:text-red-100"
+                      className="font-display text-4xl mb-6 text-red-900"
                     >
                       IMPOSTOR
                     </motion.h3>
@@ -202,7 +202,7 @@ export default function PlayingScreen() {
                       initial={{ y: 20, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       transition={{ delay: 0.2 }}
-                      className="font-body text-xl mb-2 text-red-800 dark:text-red-200"
+                      className="font-body text-xl mb-2 text-red-800"
                     >
                       Tema:
                     </motion.p>
@@ -211,7 +211,7 @@ export default function PlayingScreen() {
                       initial={{ y: 20, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       transition={{ delay: 0.3 }}
-                      className="font-display text-3xl font-black mb-6 text-red-900 dark:text-red-100"
+                      className="font-display text-3xl font-black mb-6 text-red-900"
                     >
                       {currentRoundData.theme}
                     </motion.p>
@@ -220,7 +220,7 @@ export default function PlayingScreen() {
                       initial={{ y: 20, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       transition={{ delay: 0.4 }}
-                      className="font-body text-sm text-red-800 dark:text-red-200 px-4"
+                      className="font-body text-sm text-red-800 px-4"
                     >
                       Descubra a palavra através das dicas dos outros!
                     </motion.p>
@@ -241,7 +241,7 @@ export default function PlayingScreen() {
                       initial={{ y: 20, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       transition={{ delay: 0.1 }}
-                      className="font-display text-4xl mb-6 text-green-900 dark:text-green-100"
+                      className="font-display text-4xl mb-6 text-green-900"
                     >
                       INOCENTE
                     </motion.h3>
@@ -250,7 +250,7 @@ export default function PlayingScreen() {
                       initial={{ y: 20, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       transition={{ delay: 0.2 }}
-                      className="font-body text-xl mb-4 text-green-800 dark:text-green-200"
+                      className="font-body text-xl mb-4 text-green-800"
                     >
                       Sua palavra é:
                     </motion.p>
@@ -259,7 +259,7 @@ export default function PlayingScreen() {
                       initial={{ scale: 0.5, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       transition={{ delay: 0.3, type: "spring" }}
-                      className="font-display text-6xl font-black mb-6 break-words text-green-900 dark:text-green-100"
+                      className="font-display text-6xl font-black mb-6 break-words text-green-900"
                     >
                       {currentRoundData.secretWord}
                     </motion.p>
@@ -268,7 +268,7 @@ export default function PlayingScreen() {
                       initial={{ y: 20, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       transition={{ delay: 0.4 }}
-                      className="font-body text-sm text-green-800 dark:text-green-200 px-4"
+                      className="font-body text-sm text-green-800 px-4"
                     >
                       Dê dicas sobre esta palavra sem ser muito óbvio!
                     </motion.p>
@@ -312,13 +312,13 @@ export default function PlayingScreen() {
               transition={{ delay: index * 0.1 }}
               className={`w-2 h-2 rounded-full ${
                 index <= currentPlayerIndex
-                  ? "bg-board-brown dark:bg-board-cream"
-                  : "bg-board-brown/30 dark:bg-board-cream/30"
+                  ? "bg-board-brown"
+                  : "bg-board-brown/30"
               }`}
             />
           ))}
         </div>
-        <p className="text-center font-body text-sm text-board-brown/70 dark:text-board-cream/70">
+        <p className="text-center font-body text-sm text-board-brown/70">
           {revealedPlayers.size} / {players.length} revelaram
         </p>
       </div>
@@ -329,7 +329,7 @@ export default function PlayingScreen() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           onClick={() => router.push("/voting")}
-          className="absolute bottom-20 left-1/2 transform -translate-x-1/2 z-10 px-8 py-4 bg-board-brown dark:bg-board-cream text-board-cream dark:text-board-brown rounded-full font-display text-xl shadow-card-lg"
+          className="absolute bottom-20 left-1/2 transform -translate-x-1/2 z-10 px-8 py-4 bg-board-brown text-board-cream rounded-full font-display text-xl shadow-card-lg"
         >
           Iniciar Votação
         </motion.button>
