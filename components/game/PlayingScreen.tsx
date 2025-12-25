@@ -2,13 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Info } from "lucide-react";
-import Image from "next/image";
 import { useGameState } from "@/hooks/useGameState";
-import SwipeableCard from "@/components/cards/SwipeableCard";
+import PeelRevealScreen from "./PeelRevealScreen";
 import RulesModal from "./RulesModal";
-import { getDefaultAvatar } from "@/lib/utils/avatars";
 
 export default function PlayingScreen() {
   const router = useRouter();
@@ -24,7 +22,6 @@ export default function PlayingScreen() {
   
   const [isRevealed, setIsRevealed] = useState(false);
   const [isRulesOpen, setIsRulesOpen] = useState(false);
-  const [isFlipping, setIsFlipping] = useState(false);
 
   const currentPlayer = players[currentPlayerIndex];
   const isImpostor = currentRoundData?.impostors.includes(currentPlayer?.id || "") || false;
@@ -41,18 +38,8 @@ export default function PlayingScreen() {
 
   const handleReveal = () => {
     if (currentPlayer && !isRevealed) {
-      setIsFlipping(true);
-      setTimeout(() => {
-        revealPlayerWord(currentPlayer.id);
-        setIsRevealed(true);
-        setIsFlipping(false);
-      }, 300);
-    }
-  };
-
-  const handleSwipeUp = () => {
-    if (!isRevealed) {
-      handleReveal();
+      revealPlayerWord(currentPlayer.id);
+      setIsRevealed(true);
     }
   };
 
@@ -64,12 +51,6 @@ export default function PlayingScreen() {
         nextPlayer();
         setIsRevealed(false);
       }
-    }
-  };
-
-  const handleTap = () => {
-    if (!isRevealed) {
-      handleReveal();
     }
   };
 
@@ -111,204 +92,17 @@ export default function PlayingScreen() {
         </button>
       </div>
 
-      {/* Carta Principal */}
-      <div className="flex-1 flex items-center justify-center w-full max-w-md mx-auto relative z-0">
-        <SwipeableCard
-          variant={isRevealed ? (isImpostor ? "impostor" : "innocent") : "player"}
-          size="xl"
-          onSwipeUp={handleSwipeUp}
+      {/* Tela Principal de Revelação */}
+      <div className="flex-1 flex items-center justify-center w-full relative z-0">
+        <PeelRevealScreen
+          isRevealed={isRevealed}
+          onReveal={handleReveal}
+          currentPlayer={currentPlayer}
+          isImpostor={isImpostor}
+          currentRoundData={currentRoundData}
+          allRevealed={allRevealed}
           onSwipeRight={handleSwipeRight}
-          onClick={handleTap}
-          className="w-full"
-        >
-          <AnimatePresence mode="wait">
-            {!isRevealed ? (
-              <motion.div
-                key="front"
-                initial={{ opacity: 0, rotateY: -90 }}
-                animate={{ opacity: 1, rotateY: 0 }}
-                exit={{ opacity: 0, rotateY: 90 }}
-                transition={{ duration: 0.3 }}
-                className="text-center w-full"
-              >
-                {/* Avatar do Jogador */}
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 0.2, type: "spring" }}
-                  className="relative w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden border-4 border-board-brown/20"
-                >
-                  <Image
-                    src={currentPlayer.avatar || getDefaultAvatar()}
-                    alt={currentPlayer.name}
-                    fill
-                    className="object-cover"
-                    sizes="128px"
-                  />
-                </motion.div>
-                
-                {/* Nome do Jogador */}
-                <motion.h2
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.3 }}
-                  className="font-display text-5xl mb-4 text-board-dark"
-                >
-                  {currentPlayer.name}
-                </motion.h2>
-
-                {/* Instrução */}
-                <motion.p
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.4 }}
-                  className="font-body text-lg text-board-brown/70 mb-8"
-                >
-                  Deslize para cima ou toque para revelar
-                </motion.p>
-
-                {/* Indicador de Swipe */}
-                <motion.div
-                  animate={{ y: [0, 10, 0] }}
-                  transition={{ repeat: Infinity, duration: 1.5 }}
-                  className="text-4xl"
-                >
-                  ↑
-                </motion.div>
-              </motion.div>
-            ) : (
-              <motion.div
-                key="back"
-                initial={{ opacity: 0, rotateY: 90 }}
-                animate={{ opacity: 1, rotateY: 0 }}
-                exit={{ opacity: 0, rotateY: -90 }}
-                transition={{ duration: 0.3 }}
-                className="text-center w-full"
-              >
-                {isImpostor ? (
-                  <>
-                    {/* Ilustração Impostor */}
-                    <motion.div
-                      initial={{ scale: 0, rotate: -180 }}
-                      animate={{ scale: 1, rotate: 0 }}
-                      transition={{ type: "spring", stiffness: 200 }}
-                      className="w-48 h-48 mx-auto mb-6 rounded-lg bg-cover bg-center bg-no-repeat drop-shadow-2xl"
-                      style={{ backgroundImage: 'url(/illustrations/impostor.png)' }}
-                      role="img"
-                      aria-label="Impostor"
-                    />
-                    
-                    <motion.h3
-                      initial={{ y: 20, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      transition={{ delay: 0.1 }}
-                      className="font-display text-4xl mb-6 text-red-900"
-                    >
-                      IMPOSTOR
-                    </motion.h3>
-                    
-                    <motion.p
-                      initial={{ y: 20, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      transition={{ delay: 0.2 }}
-                      className="font-body text-xl mb-2 text-red-800"
-                    >
-                      Tema:
-                    </motion.p>
-                    
-                    <motion.p
-                      initial={{ y: 20, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      transition={{ delay: 0.3 }}
-                      className="font-display text-3xl font-black mb-6 text-red-900"
-                    >
-                      {currentRoundData.theme}
-                    </motion.p>
-                    
-                    <motion.p
-                      initial={{ y: 20, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      transition={{ delay: 0.4 }}
-                      className="font-body text-sm text-red-800 px-4"
-                    >
-                      Descubra a palavra através das dicas dos outros!
-                    </motion.p>
-                  </>
-                ) : (
-                  <>
-                    {/* Ilustração Inocente */}
-                    <motion.div
-                      initial={{ scale: 0, rotate: -180 }}
-                      animate={{ scale: 1, rotate: 0 }}
-                      transition={{ type: "spring", stiffness: 200 }}
-                      className="w-48 h-48 mx-auto mb-6 rounded-lg bg-cover bg-center bg-no-repeat drop-shadow-2xl"
-                      style={{ backgroundImage: 'url(/illustrations/inoscente.png)' }}
-                      role="img"
-                      aria-label="Inocente"
-                    />
-                    
-                    <motion.h3
-                      initial={{ y: 20, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      transition={{ delay: 0.1 }}
-                      className="font-display text-4xl mb-6 text-green-900"
-                    >
-                      INOCENTE
-                    </motion.h3>
-                    
-                    <motion.p
-                      initial={{ y: 20, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      transition={{ delay: 0.2 }}
-                      className="font-body text-xl mb-4 text-green-800"
-                    >
-                      Sua palavra é:
-                    </motion.p>
-                    
-                    <motion.p
-                      initial={{ scale: 0.5, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      transition={{ delay: 0.3, type: "spring" }}
-                      className="font-display text-6xl font-black mb-6 break-words text-green-900"
-                    >
-                      {currentRoundData.secretWord}
-                    </motion.p>
-                    
-                    <motion.p
-                      initial={{ y: 20, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      transition={{ delay: 0.4 }}
-                      className="font-body text-sm text-green-800 px-4"
-                    >
-                      Dê dicas sobre esta palavra sem ser muito óbvio!
-                    </motion.p>
-                  </>
-                )}
-
-                {/* Instrução para próximo */}
-                {!allRevealed && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.6 }}
-                    className="mt-8"
-                  >
-                    <p className="font-body text-sm opacity-70 mb-2">
-                      Deslize para a direita para próximo jogador
-                    </p>
-                    <motion.div
-                      animate={{ x: [0, 10, 0] }}
-                      transition={{ repeat: Infinity, duration: 1.5 }}
-                      className="text-3xl"
-                    >
-                      →
-                    </motion.div>
-                  </motion.div>
-                )}
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </SwipeableCard>
+        />
       </div>
 
       {/* Progress Bar */}
