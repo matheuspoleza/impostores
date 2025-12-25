@@ -76,7 +76,7 @@ export default function PlayingScreen() {
   }
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-board-cream via-board-beige to-board-cream dark:from-board-dark dark:via-board-brown dark:to-board-dark flex flex-col items-center justify-center p-4 relative overflow-hidden">
+    <div className="h-screen h-dvh w-full bg-gradient-to-br from-board-cream via-board-beige to-board-cream dark:from-board-dark dark:via-board-brown dark:to-board-dark flex flex-col items-center justify-center p-4 relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="w-full h-full" style={{

@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 export default function Loading() {
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-board-cream via-board-beige to-board-cream dark:from-board-dark dark:via-board-brown dark:to-board-dark flex items-center justify-center">
+    <div className="h-screen w-full bg-gradient-to-br from-board-cream via-board-beige to-board-cream dark:from-board-dark dark:via-board-brown dark:to-board-dark flex items-center justify-center fixed inset-0">
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -27,7 +27,9 @@ export default function Loading() {
             alt="Logo"
             width={120}
             height={120}
-            className="object-contain"
+            className="object-contain aspect-square"
+            priority
+            style={{ width: '120px', height: '120px' }}
           />
         </motion.div>
         <motion.div

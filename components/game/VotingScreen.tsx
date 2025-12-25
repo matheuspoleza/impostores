@@ -59,7 +59,7 @@ export default function VotingScreen() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-board-cream via-board-beige to-board-cream dark:from-board-dark dark:via-board-brown dark:to-board-dark p-4">
+    <div className="h-screen h-dvh w-full bg-gradient-to-br from-board-cream via-board-beige to-board-cream dark:from-board-dark dark:via-board-brown dark:to-board-dark p-4 overflow-y-auto overflow-x-hidden">
       <div className="max-w-md mx-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">

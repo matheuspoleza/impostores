@@ -17,7 +17,7 @@ export default function Home() {
   }, [router]);
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-b from-[rgb(var(--background-start-rgb))] to-[rgb(var(--background-end-rgb))]">
+    <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-b from-[#fef9f3] to-[#f5f1e8] dark:from-[#3d3526] dark:to-[#2d261c]">
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -36,6 +36,7 @@ export default function Home() {
             repeat: Infinity,
             ease: "easeInOut",
           }}
+          className="w-[300px] h-[300px]"
         >
           <Image
             src="/logo.png"
@@ -43,7 +44,8 @@ export default function Home() {
             width={300}
             height={300}
             priority
-            className="object-contain"
+            className="object-contain w-full h-full"
+            style={{ aspectRatio: '1 / 1' }}
           />
         </motion.div>
       </motion.div>

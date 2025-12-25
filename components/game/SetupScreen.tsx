@@ -73,7 +73,7 @@ export default function SetupScreen() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen w-full bg-gradient-to-br from-board-cream via-board-beige to-board-cream dark:from-board-dark dark:via-board-brown dark:to-board-dark flex items-center justify-center">
+      <div className="h-screen h-dvh w-full bg-gradient-to-br from-board-cream via-board-beige to-board-cream dark:from-board-dark dark:via-board-brown dark:to-board-dark flex items-center justify-center fixed inset-0 overflow-hidden">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -89,15 +89,16 @@ export default function SetupScreen() {
               repeat: Infinity,
               ease: "easeInOut"
             }}
-            className="w-full max-w-md px-8"
+            className="w-full max-w-md px-8 aspect-square"
           >
             <Image
               src="/logo.png"
               alt="Logo"
               width={800}
               height={800}
-              className="w-full h-auto object-contain rounded-3xl shadow-lg"
+              className="w-full h-full object-contain rounded-3xl shadow-lg"
               priority
+              style={{ aspectRatio: '1 / 1' }}
             />
           </motion.div>
         </motion.div>
@@ -106,7 +107,7 @@ export default function SetupScreen() {
   }
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-board-cream via-board-beige to-board-cream dark:from-board-dark dark:via-board-brown dark:to-board-dark p-4">
+    <div className="h-screen h-dvh w-full bg-gradient-to-br from-board-cream via-board-beige to-board-cream dark:from-board-dark dark:via-board-brown dark:to-board-dark p-4 overflow-y-auto overflow-x-hidden">
       <div className="max-w-md mx-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
