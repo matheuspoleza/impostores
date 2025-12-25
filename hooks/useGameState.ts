@@ -10,12 +10,14 @@ import {
 } from "@/lib/game/gameLogic";
 import { saveGameState, loadGameState, clearGameState } from "@/lib/game/gameStorage";
 import { Theme } from "@/types/game";
+import { getDefaultAvatar } from "@/lib/utils/avatars";
 
 interface GameStore extends GameState {
   // Actions
-  addPlayer: (name: string) => void;
+  addPlayer: (name: string, avatar?: string) => void;
   removePlayer: (id: string) => void;
   updatePlayerName: (id: string, name: string) => void;
+  updatePlayerAvatar: (id: string, avatar: string) => void;
   setSelectedTheme: (theme: string | null) => void;
   startRound: (theme: Theme) => void;
   revealPlayerWord: (playerId: string) => void;
@@ -44,12 +46,13 @@ const initialState: GameState = {
 export const useGameState = create<GameStore>((set, get) => ({
   ...initialState,
 
-  addPlayer: (name: string) => {
+  addPlayer: (name: string, avatar?: string) => {
     set((state) => {
       const newPlayer: Player = {
         id: `player-${Date.now()}-${Math.random()}`,
         name: name.trim() || `Jogador ${state.players.length + 1}`,
         totalScore: 0,
+        avatar: avatar || getDefaultAvatar(),
       };
       const newState = {
         ...state,
@@ -77,6 +80,19 @@ export const useGameState = create<GameStore>((set, get) => ({
         ...state,
         players: state.players.map((p) =>
           p.id === id ? { ...p, name: name.trim() || p.name } : p
+        ),
+      };
+      saveGameState(newState);
+      return newState;
+    });
+  },
+
+  updatePlayerAvatar: (id: string, avatar: string) => {
+    set((state) => {
+      const newState = {
+        ...state,
+        players: state.players.map((p) =>
+          p.id === id ? { ...p, avatar } : p
         ),
       };
       saveGameState(newState);

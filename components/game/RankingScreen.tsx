@@ -4,9 +4,11 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Info, Trophy } from "lucide-react";
+import Image from "next/image";
 import { useGameState } from "@/hooks/useGameState";
 import GameCard from "@/components/cards/GameCard";
 import RulesModal from "./RulesModal";
+import { getDefaultAvatar } from "@/lib/utils/avatars";
 
 export default function RankingScreen() {
   const router = useRouter();
@@ -90,6 +92,15 @@ export default function RankingScreen() {
                     <span className="font-display text-4xl w-12 text-center">
                       {getRankIcon(index)}
                     </span>
+                    <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-board-brown/30 flex-shrink-0">
+                      <Image
+                        src={player.avatar || getDefaultAvatar()}
+                        alt={player.name}
+                        fill
+                        className="object-cover"
+                        sizes="56px"
+                      />
+                    </div>
                     <div>
                       <p className="font-display text-2xl">{player.name}</p>
                       <p className={`font-body text-sm ${

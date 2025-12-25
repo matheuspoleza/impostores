@@ -8,16 +8,21 @@ import Image from "next/image";
 import { useGameState } from "@/hooks/useGameState";
 import RulesModal from "./RulesModal";
 import Toast from "@/components/ui/Toast";
+import AvatarSelector from "@/components/ui/AvatarSelector";
 import { themes } from "@/lib/data/themes";
+import { getDefaultAvatar } from "@/lib/utils/avatars";
 
 export default function SetupScreen() {
   const router = useRouter();
-  const { players, addPlayer, removePlayer, updatePlayerName, setSelectedTheme, startRound, loadSavedState } = useGameState();
+  const { players, addPlayer, removePlayer, updatePlayerName, updatePlayerAvatar, setSelectedTheme, startRound, loadSavedState } = useGameState();
   const [newPlayerName, setNewPlayerName] = useState("");
+  const [newPlayerAvatar, setNewPlayerAvatar] = useState<string>(getDefaultAvatar());
   const [selectedThemeName, setSelectedThemeName] = useState<string>("");
   const [isRulesOpen, setIsRulesOpen] = useState(false);
   const [showAddPlayer, setShowAddPlayer] = useState(false);
   const [showThemePicker, setShowThemePicker] = useState(false);
+  const [showAvatarSelector, setShowAvatarSelector] = useState(false);
+  const [avatarSelectorForPlayer, setAvatarSelectorForPlayer] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [toastMessage, setToastMessage] = useState("");
   const [showToast, setShowToast] = useState(false);
@@ -33,9 +38,25 @@ export default function SetupScreen() {
 
   const handleAddPlayer = () => {
     if (newPlayerName.trim() || players.length === 0) {
-      addPlayer(newPlayerName || `Jogador ${players.length + 1}`);
+      addPlayer(newPlayerName || `Jogador ${players.length + 1}`, newPlayerAvatar);
       setNewPlayerName("");
+      setNewPlayerAvatar(getDefaultAvatar());
       setShowAddPlayer(false);
+    }
+  };
+
+  const handleOpenAvatarSelector = (playerId?: string) => {
+    setAvatarSelectorForPlayer(playerId || null);
+    setShowAvatarSelector(true);
+  };
+
+  const handleSelectAvatar = (avatar: string) => {
+    if (avatarSelectorForPlayer) {
+      // Atualizar avatar de jogador existente
+      updatePlayerAvatar(avatarSelectorForPlayer, avatar);
+    } else {
+      // Definir avatar para novo jogador
+      setNewPlayerAvatar(avatar);
     }
   };
 
@@ -166,6 +187,19 @@ export default function SetupScreen() {
                   <span className="text-board-brown/50 font-body text-sm w-6 flex-shrink-0">
                     {index + 1}.
                   </span>
+                  <button
+                    onClick={() => handleOpenAvatarSelector(player.id)}
+                    className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-board-brown/30 flex-shrink-0 hover:border-board-brown/50 transition-colors"
+                    aria-label="Selecionar avatar"
+                  >
+                    <Image
+                      src={player.avatar || getDefaultAvatar()}
+                      alt={player.name}
+                      fill
+                      className="object-cover"
+                      sizes="40px"
+                    />
+                  </button>
                   <input
                     type="text"
                     value={player.name}
@@ -238,6 +272,24 @@ export default function SetupScreen() {
                 <h3 className="font-display text-2xl mb-4 text-board-brown">
                   Adicionar Jogador
                 </h3>
+                <div className="mb-4">
+                  <label className="block font-body text-sm text-board-brown/70 mb-2">
+                    Avatar
+                  </label>
+                  <button
+                    onClick={() => handleOpenAvatarSelector()}
+                    className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-board-brown/30 hover:border-board-brown/50 transition-colors mx-auto block"
+                    aria-label="Selecionar avatar"
+                  >
+                    <Image
+                      src={newPlayerAvatar}
+                      alt="Avatar"
+                      fill
+                      className="object-cover"
+                      sizes="64px"
+                    />
+                  </button>
+                </div>
                 <input
                   type="text"
                   value={newPlayerName}
@@ -337,6 +389,24 @@ export default function SetupScreen() {
                 </div>
               </motion.div>
             </>
+          )}
+        </AnimatePresence>
+
+        {/* Avatar Selector Modal */}
+        <AnimatePresence>
+          {showAvatarSelector && (
+            <AvatarSelector
+              selectedAvatar={
+                avatarSelectorForPlayer
+                  ? players.find((p) => p.id === avatarSelectorForPlayer)?.avatar
+                  : newPlayerAvatar
+              }
+              onSelect={handleSelectAvatar}
+              onClose={() => {
+                setShowAvatarSelector(false);
+                setAvatarSelectorForPlayer(null);
+              }}
+            />
           )}
         </AnimatePresence>
 

@@ -4,10 +4,12 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Info, Check } from "lucide-react";
+import Image from "next/image";
 import { useGameState } from "@/hooks/useGameState";
 import { calculateImpostorCount, validateAllVoted } from "@/lib/game/gameLogic";
 import GameCard from "@/components/cards/GameCard";
 import RulesModal from "./RulesModal";
+import { getDefaultAvatar } from "@/lib/utils/avatars";
 
 export default function VotingScreen() {
   const router = useRouter();
@@ -96,9 +98,20 @@ export default function VotingScreen() {
                   <div className="flex flex-col h-full">
                     <div className="mb-4">
                       <div className="flex justify-between items-center mb-3">
-                        <h3 className="font-display text-2xl text-board-brown">
-                          {player.name}
-                        </h3>
+                        <div className="flex items-center gap-3">
+                          <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-board-brown/30 flex-shrink-0">
+                            <Image
+                              src={player.avatar || getDefaultAvatar()}
+                              alt={player.name}
+                              fill
+                              className="object-cover"
+                              sizes="48px"
+                            />
+                          </div>
+                          <h3 className="font-display text-2xl text-board-brown">
+                            {player.name}
+                          </h3>
+                        </div>
                         <span className="font-display text-xl text-innocent-card">
                           {voteCount}/{maxVotes}
                         </span>
@@ -118,7 +131,7 @@ export default function VotingScreen() {
                           disabled={isSelf || (!isSelected && voteCount >= maxVotes)}
                           className={`
                             py-4 px-3 rounded-card-lg font-display text-lg transition-all
-                            min-h-[60px]
+                            min-h-[60px] flex items-center gap-2
                             ${
                               isSelected
                                 ? "bg-innocent-card text-white shadow-card-lg"
@@ -128,7 +141,16 @@ export default function VotingScreen() {
                             ${!isSelected && voteCount >= maxVotes ? "opacity-30 cursor-not-allowed" : ""}
                           `}
                         >
-                          {targetPlayer.name}
+                          <div className="relative w-8 h-8 rounded-full overflow-hidden border border-board-brown/20 flex-shrink-0">
+                            <Image
+                              src={targetPlayer.avatar || getDefaultAvatar()}
+                              alt={targetPlayer.name}
+                              fill
+                              className="object-cover"
+                              sizes="32px"
+                            />
+                          </div>
+                          <span className="truncate">{targetPlayer.name}</span>
                         </motion.button>
                       );
                     })}
@@ -180,7 +202,18 @@ export default function VotingScreen() {
                   key={player.id}
                   className="flex justify-between items-center p-2 bg-board-beige/50 rounded-card"
                 >
-                  <span className="font-body text-board-brown">{player.name}</span>
+                  <div className="flex items-center gap-2">
+                    <div className="relative w-8 h-8 rounded-full overflow-hidden border border-board-brown/20 flex-shrink-0">
+                      <Image
+                        src={player.avatar || getDefaultAvatar()}
+                        alt={player.name}
+                        fill
+                        className="object-cover"
+                        sizes="32px"
+                      />
+                    </div>
+                    <span className="font-body text-board-brown">{player.name}</span>
+                  </div>
                   <span className="font-display text-lg text-innocent-card">{votes}</span>
                 </div>
               ))}

@@ -4,9 +4,11 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Info } from "lucide-react";
+import Image from "next/image";
 import { useGameState } from "@/hooks/useGameState";
 import SwipeableCard from "@/components/cards/SwipeableCard";
 import RulesModal from "./RulesModal";
+import { getDefaultAvatar } from "@/lib/utils/avatars";
 
 export default function PlayingScreen() {
   const router = useRouter();
@@ -129,14 +131,20 @@ export default function PlayingScreen() {
                 transition={{ duration: 0.3 }}
                 className="text-center w-full"
               >
-                {/* Ícone do Jogador */}
+                {/* Avatar do Jogador */}
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ delay: 0.2, type: "spring" }}
-                  className="text-8xl mb-6"
+                  className="relative w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden border-4 border-board-brown/20"
                 >
-                  👤
+                  <Image
+                    src={currentPlayer.avatar || getDefaultAvatar()}
+                    alt={currentPlayer.name}
+                    fill
+                    className="object-cover"
+                    sizes="128px"
+                  />
                 </motion.div>
                 
                 {/* Nome do Jogador */}

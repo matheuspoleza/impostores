@@ -2,6 +2,7 @@ export interface Player {
   id: string;
   name: string;
   totalScore: number;
+  avatar?: string; // Caminho do avatar (ex: "/avatars/avatar-1.png")
 }
 
 export interface Theme {

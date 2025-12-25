@@ -4,9 +4,11 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Info, ArrowRight, Trophy } from "lucide-react";
+import Image from "next/image";
 import { useGameState } from "@/hooks/useGameState";
 import GameCard from "@/components/cards/GameCard";
 import RulesModal from "./RulesModal";
+import { getDefaultAvatar } from "@/lib/utils/avatars";
 
 export default function ResultsScreen() {
   const router = useRouter();
@@ -88,9 +90,18 @@ export default function ResultsScreen() {
                     key={impostor.id}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="font-display text-2xl text-blue-900"
+                    className="flex items-center justify-center gap-3 font-display text-2xl text-blue-900"
                   >
-                    🕵️ {impostor.name}
+                    <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-blue-900/30">
+                      <Image
+                        src={impostor.avatar || getDefaultAvatar()}
+                        alt={impostor.name}
+                        fill
+                        className="object-cover"
+                        sizes="48px"
+                      />
+                    </div>
+                    <span>🕵️ {impostor.name}</span>
                   </motion.div>
                 ))}
               </div>
@@ -120,6 +131,15 @@ export default function ResultsScreen() {
                   <span className="font-display text-xl text-board-brown/50 w-6">
                     {index + 1}º
                   </span>
+                  <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-board-brown/30 flex-shrink-0">
+                    <Image
+                      src={player.avatar || getDefaultAvatar()}
+                      alt={player.name}
+                      fill
+                      className="object-cover"
+                      sizes="40px"
+                    />
+                  </div>
                   <span className="font-display text-lg text-board-brown">
                     {player.name}
                   </span>
@@ -150,9 +170,20 @@ export default function ResultsScreen() {
                   key={player.id}
                   className="flex justify-between items-center p-2 bg-board-beige/50 rounded-card"
                 >
-                  <span className={`font-body ${isImpostor ? "text-impostor-card" : "text-board-brown"}`}>
-                    {player.name} {isImpostor && "🕵️"}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <div className="relative w-8 h-8 rounded-full overflow-hidden border border-board-brown/20 flex-shrink-0">
+                      <Image
+                        src={player.avatar || getDefaultAvatar()}
+                        alt={player.name}
+                        fill
+                        className="object-cover"
+                        sizes="32px"
+                      />
+                    </div>
+                    <span className={`font-body ${isImpostor ? "text-impostor-card" : "text-board-brown"}`}>
+                      {player.name} {isImpostor && "🕵️"}
+                    </span>
+                  </div>
                   <span
                     className={`font-display text-lg ${
                       score > 0
