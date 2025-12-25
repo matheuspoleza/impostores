@@ -52,8 +52,8 @@ export default function SetupScreen() {
   };
 
   const handleStartGame = () => {
-    if (players.length < 2) {
-      showToastMessage("Adicione pelo menos 2 jogadores");
+    if (players.length < 3) {
+      showToastMessage("Adicione pelo menos 3 jogadores");
       return;
     }
 
@@ -186,9 +186,9 @@ export default function SetupScreen() {
           )}
         </div>
 
-        {/* Theme Selection - Full Width */}
-        <div className="mb-6 -mx-4">
-          <h2 className="font-display text-2xl text-board-brown mb-4 px-4">
+        {/* Theme Selection */}
+        <div className="mb-6">
+          <h2 className="font-display text-2xl text-board-brown mb-4">
             Tema
           </h2>
           <button
@@ -198,7 +198,7 @@ export default function SetupScreen() {
           >
             <span className={selectedThemeName ? "" : "text-board-brown/50"}>
               {selectedThemeName 
-                ? `${themes.find(t => t.name === selectedThemeName)?.name} (${themes.find(t => t.name === selectedThemeName)?.words.length} palavras)`
+                ? themes.find(t => t.name === selectedThemeName)?.name
                 : "Selecione um tema"}
             </span>
             <svg
@@ -314,9 +314,6 @@ export default function SetupScreen() {
                       <div className="flex items-center justify-between">
                         <div>
                           <p className="font-display text-xl text-board-brown">{theme.name}</p>
-                          <p className="font-body text-sm text-board-brown/60 mt-1">
-                            {theme.words.length} palavras
-                          </p>
                         </div>
                         {selectedThemeName === theme.name && (
                           <svg
