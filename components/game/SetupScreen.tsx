@@ -17,6 +17,7 @@ export default function SetupScreen() {
   const [selectedThemeName, setSelectedThemeName] = useState<string>("");
   const [isRulesOpen, setIsRulesOpen] = useState(false);
   const [showAddPlayer, setShowAddPlayer] = useState(false);
+  const [showThemePicker, setShowThemePicker] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [toastMessage, setToastMessage] = useState("");
   const [showToast, setShowToast] = useState(false);
@@ -108,8 +109,8 @@ export default function SetupScreen() {
   }
 
   return (
-    <div className="h-screen h-dvh w-full p-4 overflow-y-auto overflow-x-hidden pb-32">
-      <div className="max-w-md mx-auto">
+    <div className="h-screen h-dvh w-full overflow-y-auto overflow-x-hidden pb-32">
+      <div className="max-w-md mx-auto p-4">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center gap-3">
@@ -185,32 +186,36 @@ export default function SetupScreen() {
           )}
         </div>
 
-        {/* Theme Selection */}
-        <div className="mb-6">
-          <h2 className="font-display text-2xl text-board-brown mb-4">
+        {/* Theme Selection - Full Width */}
+        <div className="mb-6 -mx-4">
+          <h2 className="font-display text-2xl text-board-brown mb-4 px-4">
             Tema
           </h2>
-          <select
-            value={selectedThemeName}
-            onChange={(e) => setSelectedThemeName(e.target.value)}
-            className="w-full px-4 py-4 bg-white rounded-card-lg border-2 border-board-brown font-display text-lg text-board-brown focus:outline-none focus:ring-2 focus:ring-innocent-card appearance-none cursor-pointer"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%238B7355' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'right 1rem center',
-              backgroundSize: '1.5rem',
-              paddingRight: '3rem'
-            }}
+          <button
+            type="button"
+            onClick={() => setShowThemePicker(true)}
+            className="w-full px-4 py-4 bg-white rounded-card-lg border-2 border-board-brown font-display text-lg text-board-brown focus:outline-none focus:ring-2 focus:ring-innocent-card flex items-center justify-between"
           >
-            <option value="" disabled>
-              Selecione um tema
-            </option>
-            {themes.map((theme) => (
-              <option key={theme.name} value={theme.name}>
-                {theme.name} ({theme.words.length} palavras)
-              </option>
-            ))}
-          </select>
+            <span className={selectedThemeName ? "" : "text-board-brown/50"}>
+              {selectedThemeName 
+                ? `${themes.find(t => t.name === selectedThemeName)?.name} (${themes.find(t => t.name === selectedThemeName)?.words.length} palavras)`
+                : "Selecione um tema"}
+            </span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#8B7355"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="flex-shrink-0"
+            >
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
         </div>
 
         {/* Add Player Modal */}
@@ -255,6 +260,83 @@ export default function SetupScreen() {
                   >
                     Adicionar
                   </button>
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
+
+        {/* Theme Picker Modal - Estilo iOS Nativo */}
+        <AnimatePresence>
+          {showThemePicker && (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setShowThemePicker(false)}
+                className="fixed inset-0 bg-black/50 z-40"
+              />
+              <motion.div
+                initial={{ y: "100%" }}
+                animate={{ y: 0 }}
+                exit={{ y: "100%" }}
+                transition={{ type: "spring", damping: 30, stiffness: 300 }}
+                className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 shadow-card-3d max-h-[80vh] overflow-hidden flex flex-col"
+              >
+                {/* Header */}
+                <div className="flex justify-between items-center p-4 border-b border-board-brown/10">
+                  <h3 className="font-display text-2xl text-board-brown">Selecione um Tema</h3>
+                  <button
+                    onClick={() => setShowThemePicker(false)}
+                    className="px-4 py-2 text-board-brown font-display text-lg"
+                  >
+                    Concluir
+                  </button>
+                </div>
+                
+                {/* Lista de Temas */}
+                <div className="flex-1 overflow-y-auto">
+                  {themes.map((theme) => (
+                    <button
+                      key={theme.name}
+                      type="button"
+                      onClick={() => {
+                        setSelectedThemeName(theme.name);
+                        setShowThemePicker(false);
+                      }}
+                      className={`w-full px-4 py-4 text-left border-b border-board-brown/10 last:border-b-0 transition-colors ${
+                        selectedThemeName === theme.name
+                          ? "bg-board-beige"
+                          : "bg-white hover:bg-board-beige/50 active:bg-board-beige"
+                      }`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="font-display text-xl text-board-brown">{theme.name}</p>
+                          <p className="font-body text-sm text-board-brown/60 mt-1">
+                            {theme.words.length} palavras
+                          </p>
+                        </div>
+                        {selectedThemeName === theme.name && (
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="#8B7355"
+                            strokeWidth="3"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="flex-shrink-0"
+                          >
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
+                        )}
+                      </div>
+                    </button>
+                  ))}
                 </div>
               </motion.div>
             </>
