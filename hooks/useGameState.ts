@@ -182,13 +182,16 @@ export const useGameState = create<GameStore>((set, get) => ({
       if (!state.currentRoundData) return state;
 
       const currentVotes = state.currentRoundData.votes[voterId] || [];
-      const maxVotes = calculateImpostorCount(state.players.length);
 
-      // Validação básica
+      // Validação: não pode votar em si mesmo
       if (voterId === targetId) return state;
-      if (currentVotes.includes(targetId)) return state;
-      if (currentVotes.length >= maxVotes) return state;
+      // Se já votou nesta pessoa, remove o voto (toggle)
+      if (currentVotes.includes(targetId)) {
+        // Isso será tratado pelo removeVote, mas mantemos aqui para consistência
+        return state;
+      }
 
+      // Permite votar em quantos quiser (sem limite)
       const newVotes = [...currentVotes, targetId];
       const newRoundData = {
         ...state.currentRoundData,

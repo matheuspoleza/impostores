@@ -60,7 +60,7 @@ export default function ResultsScreen() {
 
   return (
     <div className="h-screen h-dvh w-full p-4 overflow-y-auto overflow-x-hidden">
-      <div className="max-w-md mx-auto">
+      <div className="max-w-md mx-auto pb-32">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <h1 className="font-display text-4xl text-board-brown">
@@ -203,7 +203,7 @@ export default function ResultsScreen() {
         </GameCard>
 
         {/* Action Buttons */}
-        <div className="space-y-3">
+        <div className="space-y-3 mb-6">
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={handleNextRound}

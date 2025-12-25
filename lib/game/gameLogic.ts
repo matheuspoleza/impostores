@@ -163,27 +163,23 @@ export function validateAllVoted(
 
 /**
  * Valida se um jogador pode votar em outro
+ * Permite múltiplos votos (quantos quiser), exceto votar em si mesmo
  */
 export function canVoteFor(
   voterId: string,
   targetId: string,
-  currentVotes: string[],
-  maxVotes: number
+  currentVotes: string[]
 ): boolean {
   // Não pode votar em si mesmo
   if (voterId === targetId) {
     return false;
   }
 
-  // Não pode votar duas vezes na mesma pessoa
+  // Não pode votar duas vezes na mesma pessoa (mas pode votar em outras quantas quiser)
   if (currentVotes.includes(targetId)) {
     return false;
   }
 
-  // Não pode exceder o número máximo de votos
-  if (currentVotes.length >= maxVotes) {
-    return false;
-  }
-
+  // Permite votar em quantos quiser (sem limite máximo)
   return true;
 }

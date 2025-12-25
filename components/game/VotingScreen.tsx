@@ -68,7 +68,7 @@ export default function VotingScreen() {
               🗳️ Votação
             </h1>
             <p className="font-body text-sm text-board-brown/70">
-              Vote em quem você acha que é impostor
+              Vote em quantos quiser (exceto em si mesmo)
             </p>
           </div>
           <button
