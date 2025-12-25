@@ -122,6 +122,19 @@ export default function SwipeableCard({
     }
   };
 
+  // Extrair apenas as propriedades necessárias do bind() para evitar conflitos de tipo
+  const bindProps = bind();
+  const {
+    onPointerDown,
+    onPointerMove,
+    onPointerUp,
+    onPointerCancel,
+    onTouchStart,
+    onTouchMove,
+    onTouchEnd,
+    onTouchCancel,
+  } = bindProps;
+
   return (
     <motion.div
       ref={cardRef}
@@ -132,7 +145,14 @@ export default function SwipeableCard({
         opacity: isDragging ? opacity : 1,
       }}
       className={`relative swipeable ${className}`}
-      {...bind()}
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={onPointerUp}
+      onPointerCancel={onPointerCancel}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+      onTouchCancel={onTouchCancel}
       onClick={handleClick}
     >
       <GameCard

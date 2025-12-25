@@ -61,7 +61,7 @@ export default function RulesModal({ isOpen, onClose }: RulesModalProps) {
                   <li><strong>Inocentes</strong> recebem a palavra completa</li>
                   <li><strong>Impostores</strong> recebem apenas o tema</li>
                   <li>Cada jogador vê sua palavra/tema individualmente (passar celular)</li>
-                  <li>Todos dão dicas sobre sua "palavra"</li>
+                  <li>Todos dão dicas sobre sua &quot;palavra&quot;</li>
                   <li>Votação: cada jogador vota em N pessoas (N = número de impostores)</li>
                   <li>Verificação se algum impostor falou a palavra</li>
                   <li>Revelação e pontuação</li>

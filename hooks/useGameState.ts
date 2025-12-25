@@ -38,7 +38,7 @@ const initialState: GameState = {
   currentPlayerIndex: 0,
   gamePhase: "setup",
   selectedTheme: null,
-  revealedPlayers: new Set(),
+  revealedPlayers: new Set<string>(),
 };
 
 export const useGameState = create<GameStore>((set, get) => ({
@@ -112,14 +112,14 @@ export const useGameState = create<GameStore>((set, get) => ({
     };
 
     set((prevState) => {
-      const newState = {
+      const newState: GameStore = {
         ...prevState,
         currentRound: newRoundNumber,
         currentRoundData: newRound,
         currentPlayerIndex: 0,
-        gamePhase: "playing",
+        gamePhase: "playing" as const,
         selectedTheme: theme.name,
-        revealedPlayers: new Set(),
+        revealedPlayers: new Set<string>(),
       };
       saveGameState(newState);
       return newState;
@@ -146,7 +146,7 @@ export const useGameState = create<GameStore>((set, get) => ({
         state.revealedPlayers.has(p.id)
       );
 
-      let newPhase = state.gamePhase;
+      let newPhase: GameState["gamePhase"] = state.gamePhase;
       if (allRevealed && newIndex >= state.players.length) {
         newPhase = "voting";
       }
@@ -259,7 +259,7 @@ export const useGameState = create<GameStore>((set, get) => ({
         players: updatedPlayers,
         rounds: [...prevState.rounds, completedRound],
         currentRoundData: completedRound,
-        gamePhase: "results",
+        gamePhase: "results" as const,
       };
       saveGameState(newState);
       return newState;
@@ -272,9 +272,9 @@ export const useGameState = create<GameStore>((set, get) => ({
         ...state,
         currentRoundData: null,
         currentPlayerIndex: 0,
-        gamePhase: "setup",
+        gamePhase: "setup" as const,
         selectedTheme: null,
-        revealedPlayers: new Set(),
+        revealedPlayers: new Set<string>(),
       };
       saveGameState(newState);
       return newState;
@@ -285,7 +285,7 @@ export const useGameState = create<GameStore>((set, get) => ({
     set((state) => {
       const newState = {
         ...state,
-        gamePhase: "ranking",
+        gamePhase: "ranking" as const,
       };
       saveGameState(newState);
       return newState;
