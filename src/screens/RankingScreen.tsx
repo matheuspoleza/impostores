@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: typography.fontSize['3xl'],
     fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fontFamily.display,
     color: colors.board.brown,
     marginBottom: spacing.xl,
     textAlign: 'center',
@@ -96,18 +97,21 @@ const styles = StyleSheet.create({
   winnerLabel: {
     fontSize: typography.fontSize.xl,
     fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fontFamily.display,
     color: colors.board.brown,
     marginBottom: spacing.sm,
   },
   winnerName: {
     fontSize: typography.fontSize['2xl'],
     fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fontFamily.display,
     color: colors.board.brown,
     marginBottom: spacing.sm,
   },
   winnerScore: {
     fontSize: typography.fontSize.xl,
     fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fontFamily.display,
     color: colors.innocent.default,
   },
   rankingList: {
@@ -142,6 +146,7 @@ const styles = StyleSheet.create({
   rankingName: {
     fontSize: typography.fontSize.base,
     fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fontFamily.display,
     color: colors.board.brown,
     marginBottom: spacing.xs,
   },
@@ -164,6 +169,7 @@ const styles = StyleSheet.create({
   newGameButtonText: {
     fontSize: typography.fontSize.lg,
     fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fontFamily.display,
     color: colors.white,
   },
 });

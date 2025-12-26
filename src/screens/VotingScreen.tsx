@@ -150,6 +150,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: typography.fontSize['3xl'],
     fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fontFamily.display,
     color: colors.board.brown,
     marginBottom: spacing.sm,
   },
@@ -182,6 +183,7 @@ const styles = StyleSheet.create({
   playerName: {
     fontSize: typography.fontSize.base,
     fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fontFamily.display,
     color: colors.board.brown,
     marginBottom: spacing.xs,
   },
@@ -228,6 +230,7 @@ const styles = StyleSheet.create({
   continueButtonText: {
     fontSize: typography.fontSize.lg,
     fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fontFamily.display,
     color: colors.white,
   },
 });

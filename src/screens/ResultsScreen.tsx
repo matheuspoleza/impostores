@@ -125,6 +125,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: typography.fontSize['3xl'],
     fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fontFamily.display,
     color: colors.board.brown,
     marginBottom: spacing.xl,
   },
@@ -141,6 +142,7 @@ const styles = StyleSheet.create({
   wordText: {
     fontSize: typography.fontSize['3xl'],
     fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fontFamily.display,
     color: colors.board.brown,
   },
   impostorsSection: {
@@ -152,6 +154,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: typography.fontSize.xl,
     fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fontFamily.display,
     color: colors.board.brown,
     marginBottom: spacing.md,
   },
@@ -160,6 +163,7 @@ const styles = StyleSheet.create({
     color: colors.impostor.default,
     marginBottom: spacing.sm,
     fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fontFamily.display,
   },
   votesSection: {
     marginBottom: spacing.xl,
@@ -222,6 +226,7 @@ const styles = StyleSheet.create({
   actionButtonText: {
     fontSize: typography.fontSize.lg,
     fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fontFamily.display,
     color: colors.white,
   },
   actionButtonTextSecondary: {

@@ -2,7 +2,7 @@
 
 export const typography = {
   fontFamily: {
-    display: 'BebasNeue_400Regular', // Será carregada via expo-font
+    display: 'BebasNeue_400Regular', // Carregada via @expo-google-fonts/bebas-neue
     body: 'Inter_400Regular',
     card: 'PlayfairDisplay_400Regular',
   },

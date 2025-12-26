@@ -137,6 +137,7 @@ const styles = StyleSheet.create({
   roundText: {
     fontSize: typography.fontSize['2xl'],
     fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fontFamily.display,
     color: colors.board.brown,
   },
   themeText: {
@@ -162,6 +163,7 @@ const styles = StyleSheet.create({
   playerName: {
     fontSize: typography.fontSize['2xl'],
     fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fontFamily.display,
     color: colors.board.brown,
     marginBottom: spacing.md,
   },
@@ -176,6 +178,7 @@ const styles = StyleSheet.create({
     color: colors.innocent.default,
     marginTop: spacing.lg,
     fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fontFamily.display,
   },
   roleIcon: {
     fontSize: 64,
@@ -184,6 +187,7 @@ const styles = StyleSheet.create({
   roleTitle: {
     fontSize: typography.fontSize['2xl'],
     fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fontFamily.display,
     color: colors.board.brown,
     marginBottom: spacing.lg,
   },
@@ -195,6 +199,7 @@ const styles = StyleSheet.create({
   secretWord: {
     fontSize: typography.fontSize['3xl'],
     fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fontFamily.display,
     color: colors.board.brown,
     marginBottom: spacing.lg,
     textAlign: 'center',
@@ -204,6 +209,7 @@ const styles = StyleSheet.create({
     color: colors.innocent.default,
     marginTop: spacing.xl,
     fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fontFamily.display,
   },
   progress: {
     padding: spacing.md,

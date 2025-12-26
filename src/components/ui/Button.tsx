@@ -95,5 +95,6 @@ const styles = StyleSheet.create({
   },
   text: {
     fontWeight: typography.fontWeight.semibold,
+    fontFamily: typography.fontFamily.display,
   },
 });

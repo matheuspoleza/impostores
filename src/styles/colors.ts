@@ -1,30 +1,30 @@
-// Cores extraídas do tailwind.config.ts
+// Paleta de cores vibrantes - estilo retrô/mid-century modern
 
 export const colors = {
   innocent: {
-    default: '#10b981',
-    light: '#34d399',
-    dark: '#059669',
-    card: '#22c55e',
+    default: '#9EDB7A', // Verde claro
+    light: '#F7F2C6', // Creme para fundos suaves
+    dark: '#6FA851', // Verde mais escuro para bordas
+    card: '#9EDB7A', // Verde claro
   },
   impostor: {
-    default: '#ef4444',
-    light: '#f87171',
-    dark: '#dc2626',
-    card: '#f43f5e',
+    default: '#E74C3C', // Vermelho coral
+    light: '#F2A1A1', // Rosa salmão para fundos suaves
+    dark: '#C0392B', // Vermelho mais escuro para bordas
+    card: '#E74C3C', // Vermelho coral
   },
   ranking: {
-    gold: '#fbbf24',
-    silver: '#94a3b8',
-    bronze: '#f97316',
+    gold: '#F2B705', // Amarelo mostarda
+    silver: '#4ECBC4', // Turquesa
+    bronze: '#F2A1A1', // Rosa salmão
   },
   board: {
-    cream: '#fef9f3',
-    beige: '#f5f1e8',
-    brown: '#8b7355',
-    dark: '#3d3526',
+    cream: '#FAFAF7', // Branco quente
+    beige: '#F7F2C6', // Amarelo claro/creme
+    brown: '#1A1A1A', // Preto para textos
+    dark: '#1A1A1A', // Preto para elementos escuros
   },
-  white: '#ffffff',
-  black: '#000000',
+  white: '#FAFAF7', // Branco quente
+  black: '#1A1A1A', // Preto
 };
 

@@ -37,14 +37,14 @@ export default function GameCard({
       borderColor: colors.board.brown,
     },
     innocent: {
-      backgroundColor: colors.innocent.light,
+      backgroundColor: colors.innocent.card,
       borderWidth: 4,
-      borderColor: colors.innocent.card,
+      borderColor: colors.innocent.dark,
     },
     impostor: {
-      backgroundColor: colors.impostor.light,
+      backgroundColor: colors.impostor.card,
       borderWidth: 4,
-      borderColor: colors.impostor.card,
+      borderColor: colors.impostor.dark,
     },
     player: {
       backgroundColor: colors.board.beige,
@@ -52,9 +52,9 @@ export default function GameCard({
       borderColor: colors.board.brown,
     },
     theme: {
-      backgroundColor: '#dbeafe', // blue-100 equivalente
+      backgroundColor: colors.board.beige, // Creme da paleta
       borderWidth: 4,
-      borderColor: '#2563eb', // blue-600
+      borderColor: colors.ranking.silver, // Turquesa da paleta
     },
   };
 

@@ -112,11 +112,13 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: typography.fontSize['2xl'],
     fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fontFamily.display,
     color: colors.board.brown,
   },
   headerButton: {
     fontSize: typography.fontSize.lg,
     fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fontFamily.display,
     color: colors.board.brown,
   },
   grid: {

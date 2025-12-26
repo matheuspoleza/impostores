@@ -333,6 +333,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: typography.fontSize['2xl'],
     fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fontFamily.display,
     color: colors.board.brown,
   },
   section: {
@@ -347,6 +348,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: typography.fontSize['2xl'],
     fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fontFamily.display,
     color: colors.board.brown,
   },
   sectionSubtitle: {
@@ -366,6 +368,7 @@ const styles = StyleSheet.create({
     fontSize: typography.fontSize.lg,
     color: colors.board.brown,
     fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fontFamily.display,
   },
   playersList: {
     gap: spacing.sm,
@@ -441,6 +444,7 @@ const styles = StyleSheet.create({
   themeName: {
     fontSize: typography.fontSize.xl,
     fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fontFamily.display,
     color: colors.board.brown,
     marginBottom: spacing.xs,
   },
@@ -477,6 +481,7 @@ const styles = StyleSheet.create({
     marginLeft: spacing.sm,
     fontSize: typography.fontSize['2xl'],
     fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fontFamily.display,
     color: colors.white,
   },
   startButtonTextDisabled: {
@@ -502,6 +507,7 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: typography.fontSize['2xl'],
     fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fontFamily.display,
     color: colors.board.brown,
   },
   modalCloseButton: {
@@ -551,6 +557,7 @@ const styles = StyleSheet.create({
   modalButtonText: {
     fontSize: typography.fontSize.lg,
     fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fontFamily.display,
     color: colors.board.brown,
   },
   themeModalContent: {
@@ -576,6 +583,7 @@ const styles = StyleSheet.create({
   themeItemName: {
     fontSize: typography.fontSize.xl,
     fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fontFamily.display,
     color: colors.board.brown,
     marginBottom: spacing.xs,
   },

@@ -108,11 +108,13 @@ const styles = StyleSheet.create({
   wordText: {
     fontSize: typography.fontSize['3xl'],
     fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fontFamily.display,
     color: colors.board.brown,
   },
   title: {
     fontSize: typography.fontSize['2xl'],
     fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fontFamily.display,
     color: colors.board.brown,
     marginBottom: spacing.sm,
   },
@@ -133,6 +135,7 @@ const styles = StyleSheet.create({
   impostorName: {
     fontSize: typography.fontSize.base,
     fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fontFamily.display,
     color: colors.board.brown,
   },
   continueButton: {
@@ -148,6 +151,7 @@ const styles = StyleSheet.create({
   continueButtonText: {
     fontSize: typography.fontSize.lg,
     fontWeight: typography.fontWeight.bold,
+    fontFamily: typography.fontFamily.display,
     color: colors.white,
   },
 });
