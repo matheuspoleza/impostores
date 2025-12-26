@@ -1,102 +1,67 @@
-# 🎮 Jogo do Impostor
+# Jogo do Impostor - React Native
 
-Um jogo mobile de dedução e estratégia onde inocentes tentam descobrir impostores através de votação!
+Versão React Native (Expo) do Jogo do Impostor, preparada para iOS, Android e Web.
 
-## 🚀 Como Executar
+## Setup
 
+1. **Instalar dependências:**
 ```bash
-# Instalar dependências
 bun install
-
-# Executar em modo desenvolvimento
-bun dev
-
-# Build para produção
-bun run build
-
-# Executar produção
-bun start
 ```
 
-## 📋 Regras do Jogo
-
-### Objetivo
-- **Inocentes:** Descobrir TODOS os impostores através de votação
-- **Impostores:** Não ser descoberto, fingindo conhecer a palavra secreta
-
-### Como Jogar
-1. Adicionar jogadores (mínimo 2)
-2. Escolher tema da rodada
-3. Sistema sorteia 30% dos jogadores como impostores (mínimo 1)
-4. **Inocentes** recebem a palavra completa
-5. **Impostores** recebem apenas o tema
-6. Cada jogador vê sua palavra/tema individualmente (passar celular)
-7. Todos dão dicas sobre sua "palavra"
-8. Votação: cada jogador vota em N pessoas (N = número de impostores)
-9. Verificação se algum impostor falou a palavra
-10. Revelação e pontuação
-
-### Sistema de Pontuação
-
-#### Inocentes
-- ⭐ **Perfeito (+5):** Acertou TODOS os impostores
-- ✅ **Bom (+2):** Acertou ALGUNS impostores
-- ❌ **Neutro (0):** Errou todos
-- 💀 **Péssimo (-1):** TODOS os outros inocentes votaram nele
-
-#### Impostores
-- ⭐ **Perfeito (+5):** Escapou (não foi descoberto)
-- ✅ **Bom (+2):** Foi descoberto mas não foi o mais votado
-- ❌ **Neutro (0):** Foi o mais votado
-- 💀 **Péssimo (-1):** Falou a palavra secreta durante o jogo
-
-## 🛠️ Tecnologias
-
-- **Next.js 14** - Framework React
-- **Bun** - Runtime e package manager
-- **TypeScript** - Tipagem estática
-- **Tailwind CSS** - Estilização
-- **Framer Motion** - Animações
-- **Zustand** - Gerenciamento de estado
-
-## 📱 Features
-
-- ✅ Sistema de múltiplas rodadas
-- ✅ Pontuação individual
-- ✅ Votação múltipla (mais estratégica)
-- ✅ Persistência no localStorage
-- ✅ 10 temas pré-definidos com 20 palavras cada
-- ✅ Design mobile-first
-- ✅ Animações suaves
-- ✅ Dark mode
-
-## 📂 Estrutura do Projeto
-
-```
-app/                    # Next.js App Router
-  (game)/              # Rotas do jogo
-components/
-  game/                # Componentes do jogo
-  ui/                  # Componentes reutilizáveis
-lib/
-  game/                # Lógica do jogo
-  data/                # Dados estáticos (temas)
-hooks/                 # Hooks customizados
-types/                 # Tipos TypeScript
+2. **Copiar assets (se necessário):**
+```bash
+# Os assets já devem estar em assets/images/
+# Se não estiverem, copie de onde você os tiver
 ```
 
-## 🎨 Temas Disponíveis
+3. **Iniciar o projeto:**
+```bash
+# iOS
+bun start --ios
 
-- Animais
-- Comida
-- Objetos
-- Profissões
-- Esportes
-- Países
-- Cores
-- Natureza
-- Transporte
-- Música
+# Android
+bun start --android
 
-Cada tema contém 20 palavras pré-definidas.
+# Web (futuro)
+bun start --web
+```
 
+## Sobre Expo CLI
+
+**Você NÃO precisa instalar Expo globalmente!**
+
+Use `bunx expo` (ou `npx expo`) que funciona sem instalação global. Os scripts já estão configurados para usar `bunx expo`.
+
+## Estrutura do Projeto
+
+```
+src/
+├── screens/          # Telas do app
+├── components/       # Componentes reutilizáveis
+├── navigation/       # Configuração de navegação
+├── platform/         # Platform adapters (iOS/Android/Web)
+├── hooks/            # Hooks personalizados
+├── lib/              # Lógica de negócio
+├── types/            # TypeScript types
+└── styles/           # Sistema de estilos
+```
+
+## Plataformas
+
+- **iOS**: ✅ Implementado
+- **Android**: 🔄 Estrutura preparada
+- **Web**: 🔄 Estrutura preparada
+
+## Scripts
+
+- `bun start` - Inicia o Expo dev server
+- `bun start --ios` - Inicia no iOS
+- `bun start --android` - Inicia no Android
+- `bun start --web` - Inicia no Web
+
+## Documentação Adicional
+
+- `SETUP.md` - Guia de setup detalhado
+- `MIGRATION-STATUS.md` - Status da migração
+- `GAME_DOCUMENTATION.md` - Documentação do jogo
