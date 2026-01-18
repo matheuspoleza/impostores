@@ -104,10 +104,10 @@ export default function SetupScreen() {
           className="w-full flex justify-center"
         >
           <motion.div
-            animate={{ 
+            animate={{
               scale: [1, 1.05, 1],
             }}
-            transition={{ 
+            transition={{
               duration: 2,
               repeat: Infinity,
               ease: "easeInOut"
@@ -131,13 +131,13 @@ export default function SetupScreen() {
 
   const selectedTheme = themes.find((t) => t.name === selectedThemeName);
   const canStartGame = players.length >= 3 && selectedThemeName !== "";
-  const maxPlayers = 8;
-  
+  const maxPlayers = 10;
+
   // Lógica para mostrar checklist: apenas quando 1 requisito falta
   const hasPlayers = players.length >= 3;
   const hasTheme = selectedThemeName !== "";
   const showChecklist = (hasPlayers && !hasTheme) || (!hasPlayers && hasTheme);
-  
+
   // Mensagem única e inteligente para o rodapé
   const getStatusMessage = () => {
     if (canStartGame) {
@@ -157,7 +157,7 @@ export default function SetupScreen() {
     }
     return null;
   };
-  
+
   const statusMessage = getStatusMessage();
 
   // Função para obter ícone do tema
@@ -195,7 +195,7 @@ export default function SetupScreen() {
               <Info className="w-5 h-5 text-board-brown" strokeWidth={2} />
             </button>
           </div>
-          
+
           {/* Stepper Minimal - Secundário */}
           <div className="flex items-center gap-1.5">
             <div className="flex items-center gap-1">
@@ -241,7 +241,7 @@ export default function SetupScreen() {
               whileTap={{ scale: 0.98 }}
               className="w-full px-4 py-4 bg-white rounded-card-lg border-2 border-dashed border-board-brown/30 hover:border-board-brown/50 focus:outline-none focus:ring-2 focus:ring-innocent-card flex items-center gap-3 transition-all"
             >
-              <div 
+              <div
                 className="w-20 h-20 flex-shrink-0 rounded-lg bg-cover bg-center bg-no-repeat"
                 style={{ backgroundImage: 'url(/illustrations/adicionar.png)' }}
                 role="img"
@@ -267,7 +267,7 @@ export default function SetupScreen() {
                     initial={{ opacity: 0, y: 20, scale: 0.9 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, x: -20, scale: 0.9 }}
-                    transition={{ 
+                    transition={{
                       duration: 0.3,
                       layout: { duration: 0.2 }
                     }}
@@ -361,7 +361,7 @@ export default function SetupScreen() {
                 whileTap={{ scale: 0.98 }}
                 className="w-full px-4 py-4 bg-white rounded-card-lg border-2 border-dashed border-board-brown/30 hover:border-board-brown/50 focus:outline-none focus:ring-2 focus:ring-innocent-card flex items-center gap-3 transition-all"
               >
-                <div 
+                <div
                   className="w-20 h-20 flex-shrink-0 rounded-lg bg-cover bg-center bg-no-repeat"
                   style={{ backgroundImage: 'url(/illustrations/tema.png)' }}
                   role="img"
@@ -484,7 +484,7 @@ export default function SetupScreen() {
                     Concluir
                   </button>
                 </div>
-                
+
                 {/* Lista de Temas */}
                 <div className="flex-1 overflow-y-auto">
                   {themes.map((theme) => (
@@ -577,7 +577,7 @@ export default function SetupScreen() {
               </div>
             </motion.div>
           )}
-          
+
           {/* Mensagem única e inteligente */}
           {statusMessage && (
             <motion.div
@@ -594,7 +594,7 @@ export default function SetupScreen() {
               </motion.p>
             </motion.div>
           )}
-          
+
           <motion.button
             whileTap={canStartGame ? { scale: 0.95 } : {}}
             whileHover={canStartGame ? { scale: 1.02 } : {}}
